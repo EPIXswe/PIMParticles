@@ -15,4 +15,14 @@ public class Note {
         this.content = content;
         this.owner = owner;
     }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id=" + id +
+                ", header='" + header + '\'' +
+                ", content='" + content + '\'' +
+                ", owner=" + owner +
+                '}';
+    }
 }

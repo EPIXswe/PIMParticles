@@ -9,6 +9,8 @@ public class User {
         this.username = username;
     }
 
+    public User(){}
+
     @Override
     public String toString() {
         return "User{" +
