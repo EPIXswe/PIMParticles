@@ -1,24 +1,68 @@
-<!DOCTYPE HTML>
-<html lang = "en">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>inloggning.html</title>
-    <meta charset = "UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+.vl {
+  border-left: 6px solid green;
+  height: 500px;
+  position: absolute;
+  left: 30%;
+  margin-left: -3px;
+  top: 0;
+}
+</style>
+    <style>
+
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 30%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #00BFFF;
+  color: white;
+}
+
+
+</style>
 </head>
 <body>
-<h1>PIM Particles</h1>
-<form>
-    <fieldset>
-        <legend></legend>
-        <p>
-            <label>Enter Username</label>
-            <input type = "text"
-                   id = "Username"
-                   onfocus="this.value=''"
-                   value = "Enter the Username" />
 
-        </p>
-        
-    </fieldset>
-</form>
+<table id="customers">
+    <tr>
+        <th>Title</th>
+
+    </tr>
+    <tr>
+        <td></td>
+
+    </tr>
+    <tr>
+        <td></td>
+
+    </tr>
+    <tr>
+        <td></td>
+
+    </tr>
+
+</table>
+
+<div class="vl"></div>
+
 </body>
 </html>
