@@ -1,5 +1,4 @@
 package blackhat;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import express.utils.Utils;
 
@@ -8,15 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
+    private static final Database instance = new Database();
     Connection conn = null;
 
-    public void connectToServer(){
+    private Database() {
         try {
             conn = DriverManager.getConnection(
                     "jdbc:sqlite:pimp.db");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static Database getInstance() {
+        return instance;
     }
 
     public User getUserWithID(int id) {
@@ -72,16 +76,19 @@ public class Database {
                     "SELECT * FROM notes WHERE owner = ?");
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
-            List<Note> notes = new ArrayList<>();
-            while (resultSet.next()) {
-                int noteID = resultSet.getInt("id");
-                String noteHeader = resultSet.getString("header");
-                String noteContent = resultSet.getString("content");
-                int noteOwner = resultSet.getInt("owner");
-                notes.add(new Note(noteID, noteHeader, noteContent, noteOwner));
-            }
+
+            List<Note> notes;
+            notes = List.of((Note[])Utils.readResultSetToObject(resultSet, Note[].class));
+
+//            while (resultSet.next()) {
+//                int noteID = resultSet.getInt("id");
+//                String noteHeader = resultSet.getString("header");
+//                String noteContent = resultSet.getString("content");
+//                int noteOwner = resultSet.getInt("owner");
+//                notes.add(new Note(noteID, noteHeader, noteContent, noteOwner));
+//            }
             return notes;
-        } catch (SQLException throwables) {
+        } catch (SQLException | JsonProcessingException throwables) {
             throwables.printStackTrace();
         }
         return null;

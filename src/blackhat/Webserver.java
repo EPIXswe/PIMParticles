@@ -2,6 +2,7 @@ package blackhat;
 
 import express.Express;
 import express.middleware.Middleware;
+import express.utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class Webserver {
     Express express = new Express();
-    Database db = new Database();
+    Database db = Database.getInstance();
 
     public void Start(){
 //region users
@@ -27,9 +28,15 @@ public class Webserver {
 //endregion
 
 //region notes
-        express.get("/rest/notes", (request, response) -> {
-            int id = Integer.parseInt((String) request.getBody().get("id"));
+        express.get("/rest/notes/:owner-id", (request, response) -> {
+//            int id = Integer.parseInt((String) request.getBody().get("id"));
+            int id = Integer.parseInt(request.getParam("owner-id"));
             List<Note> notes = db.getAllNotesForUser(id);
+
+            for (Note note : notes) {
+                System.out.println(note);
+            }
+
             response.json(notes);
         });
 
@@ -61,7 +68,7 @@ public class Webserver {
 //endregion
 
         try {
-            express.use(Middleware.statics(Paths.get("src/www").toString()));
+            express.use(Middleware.statics(Paths.get("src/www_test2").toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
