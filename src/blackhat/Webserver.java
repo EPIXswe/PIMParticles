@@ -68,7 +68,7 @@ public class Webserver {
 //endregion
 
         try {
-            express.use(Middleware.statics(Paths.get("src/www_test2").toString()));
+            express.use(Middleware.statics(Paths.get("src/www_quilltest").toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
