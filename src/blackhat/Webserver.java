@@ -11,6 +11,7 @@ import java.util.List;
 public class Webserver {
     Express express = new Express();
     Database db = Database.getInstance();
+    boolean dBug = false;
 
     public void Start(){
 //region users
@@ -33,9 +34,10 @@ public class Webserver {
             int id = Integer.parseInt(request.getParam("owner-id"));
             List<Note> notes = db.getAllNotesForUser(id);
 
-            for (Note note : notes) {
-                System.out.println(note);
-            }
+            if(dBug)
+                for (Note note : notes) {
+                    System.out.println(note);
+                }
 
             response.json(notes);
         });

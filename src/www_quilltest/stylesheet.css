@@ -1,11 +1,56 @@
-ul > #notes{
-    background-color: snow;
-    margin-bottom: 25px;
-    max-width: 40%;
+body{
+    background: rgb(44,46,57);
+    background: linear-gradient(0deg, rgba(44,46,57,1) 0%, 
+    rgba(85,88,96,1) 100%);
+}
+
+header{
+    padding-bottom: 25px;
+    padding-top: 25px;
+    background-color: rgb(2, 22, 99);
+    background: linear-gradient(90deg, rgba(2, 22, 99) 0%, 
+    rgba(251, 98, 118) 100%);
+    box-shadow: 5px 10px rgba(25, 25, 25, .25);
+}
+
+.column{
+    float: left;
+    width: 25%;
+    border: red;
+    border-radius: 10px;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#para > #notes{
+    background-color: gainsboro;
+    background: linear-gradient(270deg, gainsboro 50%, 
+    darkgray 100%);
+    margin-bottom: 2vh;
+    box-shadow: 5px 10px rgba(25, 25, 25, .25);
+    min-height: 5vh;
+    width: 100%;
+}
+
+#para > #notes > button{
+    margin-left: 12.5%;
+    width: 75%;
+    height: 5.5%;
+    background-color: gainsboro;
 }
 
 #para2{
-    height: 50%;
-    width: 55%;
+    padding-left: 5px;
+    height: 65%;
+    width: 69%;
     float: right;
+}
+
+#editor{
+    background-color: snow;
+    box-shadow: 5px 10px rgba(25, 25, 25, .25);
 }

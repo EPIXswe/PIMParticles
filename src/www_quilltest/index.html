@@ -11,13 +11,18 @@
         <link rel="stylesheet" href="stylesheet.css">
         <script src="script.js" defer></script>
     </head>
+    <header>
+        <button onclick="getNotesForLoggedUser()">Click me for notes for user</button>
+        <input type="text" id="userID" name="userID" placeholder="User ID">
+    </header>
     <body>
-        <button onclick="getNotesForLoggedUser()">Click me for notes</button>
-        <ul id="para">Hello world</ul>
-        <ul id="para2">
-            <div id="editor">
+        <div class="row">
+            <ul id="para" class="column"></ul>
+            <ul id="para2">
+                <div id="editor">
             </div>
-        </ul>
+            </ul>
+        </div>
     </body>
     
 </html>

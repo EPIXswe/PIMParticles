@@ -1,14 +1,15 @@
 let logged_user = 2;
 let nList;
+let dBug = false;
 
-var quill = new Quill('#editor', {
-    theme: 'snow'
-});
+var quill = '';
 
 async function getNotesForLoggedUser() {
+    logged_user = document.getElementById('userID').value;
     let notesObj = await fetch("/rest/notes/" + logged_user);
     let result = await notesObj.json();
     
+    if(dBug)
     for(note of result) {
         console.log("Header:", note.header);
         console.log("Last update:", note.last_update);
@@ -31,9 +32,8 @@ function renderNotesList(notes){
         let noteLi = `
                 <div id="notes">
                     <button onclick="renderNoteContent(${note.id})">
-                        ${note.header} <br>
+                        ${note.header}
                     </button>
-                    ${note.id} <br>
                     <br>
                 </div>
         `;
@@ -51,7 +51,17 @@ function returnContent(id){
 }
 
 function renderNoteContent(note){
+    if(quill == ''){
+            enableEditor();
+    }
     quill.setText('');
     let conLi = `${returnContent(note)}`;
         quill.insertText(0, conLi);
+}
+
+function enableEditor(){
+    quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+    document.getElementById('para2').style.backgroundColor = "#DCDCDC";
 }
