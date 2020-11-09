@@ -3,7 +3,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import express.utils.Utils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
@@ -94,7 +93,14 @@ public class Database {
         return null;
     }
 
-    public void createNewNote(int owner, String header, String content){
+    /**
+     * Adds a new note to the database.
+     * @param owner The user that owns this note.
+     * @param header Header of the note.
+     * @param content The content of the note. Is basically HTML.
+     * @return
+     */
+    public boolean createNewNote(int owner, String header, String content){
         try {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO notes(owner, header, content) " +
@@ -103,18 +109,21 @@ public class Database {
             stmt.setString(2, header);
             stmt.setString(3, content);
             int res = stmt.executeUpdate();
-            System.out.println("Created notes: " + res);
+
+            // Returns true if a row was added to the table. False if not.
+            return (res > 0);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        // A new note could not be created for some reason.
+        return false;
     }
 
-    public void updateNote(int owner, String newHeader,
-                           String newContent, int noteID){
+    public void updateNote(int owner, String newHeader, String newContent, int noteID){
         try {
             PreparedStatement stmt = conn.prepareStatement(
-                    "UPDATE notes SET owner = ?, header = ?, " +
-                            "content = ? WHERE id = ?");
+                    "UPDATE notes SET owner = ?, header = ?, content = ? WHERE id = ?");
             stmt.setInt(1, owner);
             stmt.setString(2, newHeader);
             stmt.setString(3, newContent);
@@ -128,8 +137,7 @@ public class Database {
 
     public void deleteNote(int noteID){
         try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM notes " +
-                    "WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM notes WHERE id = ?");
             stmt.setInt(1, noteID);
             int res = stmt.executeUpdate();
             System.out.println(res);

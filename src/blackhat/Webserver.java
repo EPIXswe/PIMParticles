@@ -14,7 +14,8 @@ public class Webserver {
     boolean dBug = false;
 
     public void Start(){
-//region users
+
+        //region users --------------------------------------------------------
         express.get("/rest/login", (request, response) -> {
             int id = Integer.parseInt((String) request.getBody().get("id"));
             User user = db.getUserWithID(id);
@@ -26,20 +27,18 @@ public class Webserver {
             boolean canCreate = db.createNewUser(username);
             response.send(Boolean.toString(canCreate));
         });
-//endregion
+        //endregion -----------------------------------------------------------
 
-//region notes
+
+        //region notes --------------------------------------------------------
         express.get("/rest/notes/:owner-id", (request, response) -> {
-//            int id = Integer.parseInt((String) request.getBody().get("id"));
             int id = Integer.parseInt(request.getParam("owner-id"));
             List<Note> notes = db.getAllNotesForUser(id);
 
-            if(dBug)
-                for (Note note : notes) {
-                    System.out.println(note);
-                }
+            String strMessage = String.format("All the notes for user with ID %d", id);
+            ServerResponse data = ServerResponse.get(strMessage, notes);
 
-            response.json(notes);
+            response.json(data);
         });
 
         express.post("/createNote", (request, response) -> {
@@ -47,7 +46,9 @@ public class Webserver {
             String header = (String) request.getBody().get("header");
             String content = (String) request.getBody().get("content");
 
-            db.createNewNote(owner, header, content);
+            boolean success = db.createNewNote(owner, header, content);
+            String message = success ? "Note successfully created" : "Note could not be created.";
+            response.send(message);
         });
 
         express.put("/updateNote", (request, response) -> {
@@ -62,18 +63,20 @@ public class Webserver {
         express.delete("/delete", (request, response) -> {
             request.getParam("id");
             System.out.println("Deleting");
-            int id = -1;
-
-            id = Integer.parseInt((String) request.getBody().get("id"));
+            int id = Integer.parseInt((String) request.getBody().get("id"));
             db.deleteNote(id);
         });
-//endregion
+        //endregion -----------------------------------------------------------
+
 
         try {
+            express.use(Middleware.statics(Paths.get("src/www").toString()));
             express.use(Middleware.statics(Paths.get("src/www_quilltest").toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        List<String> sponsors = List.of("Pizza hut", "McDonald's", "KFC", "Stadium", "");
 
         int port = 2001;
         express.listen(port);
