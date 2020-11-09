@@ -1,0 +1,11 @@
+ul > #notes{
+    background-color: snow;
+    margin-bottom: 25px;
+    max-width: 40%;
+}
+
+#para2{
+    height: 50%;
+    width: 55%;
+    float: right;
+}
