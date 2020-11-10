@@ -94,14 +94,14 @@ public class Database {
         return null;
     }
 
-    public void createNewNote(int owner, String header, String content){
+    public void createNewNote(Note note){
         try {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO notes(owner, header, content) " +
                             "VALUES(?, ?, ?)");
-            stmt.setInt(1, owner);
-            stmt.setString(2, header);
-            stmt.setString(3, content);
+            stmt.setInt(1, note.getOwner());
+            stmt.setString(2, note.getHeader());
+            stmt.setString(3, note.getContent());
             int res = stmt.executeUpdate();
             System.out.println("Created notes: " + res);
         } catch (SQLException throwables) {
@@ -109,16 +109,15 @@ public class Database {
         }
     }
 
-    public void updateNote(int owner, String newHeader,
-                           String newContent, int noteID){
+    public void updateNote(Note note){
         try {
             PreparedStatement stmt = conn.prepareStatement(
                     "UPDATE notes SET owner = ?, header = ?, " +
                             "content = ? WHERE id = ?");
-            stmt.setInt(1, owner);
-            stmt.setString(2, newHeader);
-            stmt.setString(3, newContent);
-            stmt.setInt(4, noteID);
+            stmt.setInt(1, note.getOwner());
+            stmt.setString(2, note.getHeader());
+            stmt.setString(3, note.getContent());
+            stmt.setInt(4, note.getId());
             int res = stmt.executeUpdate();
             System.out.println("Created notes: " + res);
         } catch (SQLException throwables) {

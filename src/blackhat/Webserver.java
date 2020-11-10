@@ -11,11 +11,12 @@ import java.util.List;
 public class Webserver {
     Express express = new Express();
     Database db = Database.getInstance();
-    boolean dBug = false;
+    boolean dBug = true;
 
     public void Start(){
 //region users
         express.get("/rest/login", (request, response) -> {
+            System.out.println("PING: login");
             int id = Integer.parseInt((String) request.getBody().get("id"));
             User user = db.getUserWithID(id);
             response.json(user);
@@ -30,7 +31,7 @@ public class Webserver {
 
 //region notes
         express.get("/rest/notes/:owner-id", (request, response) -> {
-//            int id = Integer.parseInt((String) request.getBody().get("id"));
+            System.out.println("PING: notes for user");
             int id = Integer.parseInt(request.getParam("owner-id"));
             List<Note> notes = db.getAllNotesForUser(id);
 
@@ -42,21 +43,26 @@ public class Webserver {
             response.json(notes);
         });
 
-        express.post("/createNote", (request, response) -> {
-            int owner = Integer.parseInt((String) request.getBody().get("owner"));
-            String header = (String) request.getBody().get("header");
-            String content = (String) request.getBody().get("content");
+        express.post("/createnote", (request, response) -> {
+            System.out.println("PING: CreateNote");
+            Note note = (Note)request.getBody(Note.class);
 
-            db.createNewNote(owner, header, content);
+            System.out.println(note.toString());
+
+            response.send("Post OK");
+
+            db.createNewNote(note);
         });
 
         express.put("/updateNote", (request, response) -> {
-            int owner = Integer.parseInt((String) request.getBody().get("owner"));
-            String header = (String) request.getBody().get("header");
-            String content = (String) request.getBody().get("content");
-            int id = Integer.parseInt((String) request.getBody().get("id"));
+            System.out.println("PING: UpdateNote");
+            Note note = (Note)request.getBody(Note.class);
 
-            db.updateNote(owner, header, content, id);
+            System.out.println(note.toString());
+
+            response.send("Post OK");
+
+            db.updateNote(note);
         });
 
         express.delete("/delete", (request, response) -> {

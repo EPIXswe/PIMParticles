@@ -1,6 +1,8 @@
 let logged_user = 2;
 let nList;
-let dBug = false;
+let dBug = true;
+let nID;
+let nHead;
 
 var quill = '';
 
@@ -15,7 +17,7 @@ async function getNotesForLoggedUser() {
         console.log("Last update:", note.last_update);
         console.log("Content:", note.content);
         console.log("Owner:", note.owner);
-        console.log();
+        console.log("Id:", note.id);
     }
 
     renderNotesList(result);
@@ -50,7 +52,17 @@ function returnContent(id){
     }
 }
 
+function returnHeader(id){
+    for(note of nList){
+        if(note.id == id){
+            return note.header;
+        }
+    }
+}
+
 function renderNoteContent(note){
+    nID = note;
+    nHead = returnHeader(note);
     if(quill == ''){
             enableEditor();
     }
@@ -64,4 +76,20 @@ function enableEditor(){
         theme: 'snow'
     });
     document.getElementById('para2').style.backgroundColor = "#DCDCDC";
+}
+
+async function saveNote(){
+    let updatedNote = {
+        id: parseInt(nID),
+        header: nHead,
+        content: quill.getText(0, quill.getLength()),
+        owner: parseInt(logged_user)
+    };
+
+    let result = await fetch("/updateNote", {
+        method: "PUT",
+        body: JSON.stringify(updatedNote)
+    });
+
+    console.log(await result.text());
 }
