@@ -20,6 +20,7 @@ public class Webserver {
             System.out.println("PING: login");
             int id = Integer.parseInt((String) request.getBody().get("id"));
             User user = db.getUserWithID(id);
+        });
 
         //region users --------------------------------------------------------
         express.get("/rest/login/:username", (request, response) -> {
@@ -86,7 +87,7 @@ public class Webserver {
 
 
         try {
-            express.use(Middleware.statics(Paths.get("src/www_quilltest").toString()));
+            express.use(Middleware.statics(Paths.get("src/www").toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }

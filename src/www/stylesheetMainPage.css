@@ -7,11 +7,6 @@
 html, body {
   height: 100%;
 }
-#text-input {
-  rows :"80%";
-  columns : "135.9%";
-
-}  
 
   body {
     margin: 0;
@@ -54,13 +49,6 @@ html, body {
     text-decoration: none;
     display: block;
   }
-
-#note-main-grid {
-  display: grid;
-  background-color: red;
-  grid-template-columns: auto;
-  grid-template-rows: 50px auto 30px;
-}
  
  .note-header {
   display: grid;
@@ -78,7 +66,7 @@ html, body {
 }
 
 #editor {
-  background-color: goldenrod;
+  background-color: snow;
 }
   
   #buttons {

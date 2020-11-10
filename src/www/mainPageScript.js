@@ -1,18 +1,20 @@
-let logged_user = 2;
+let username = localStorage.getItem("user");
 let nList;
-let dBug = true;
 let nID;
 let nHead;
 
 var quill = '';
 
 async function getNotesForLoggedUser() {
-    logged_user = document.getElementById('userID').value;
-    let notesObj = await fetch("/rest/notes/" + logged_user);
-    let result = await notesObj.json();
+console.log(username);
 
-    renderNotesList(result);
-    nList = result;
+    let notesObj = await fetch("/rest/notes/" + username);
+    let answer = await notesObj.json();
+
+    console.log(answer);
+
+    renderNotesList(answer.data);
+    nList = answer;
 }
 
 function renderNotesList(notes){
@@ -36,7 +38,7 @@ function renderNotesList(notes){
 }
 
 function returnContent(id){
-    for(note of nList){
+    for(note of nList.data){
         if(note.id == id){
             return note.content;
         }
@@ -44,7 +46,7 @@ function returnContent(id){
 }
 
 function returnHeader(id){
-    for(note of nList){
+    for(note of nList.data){
         if(note.id == id){
             return note.header;
         }
@@ -66,7 +68,7 @@ function enableEditor(){
     quill = new Quill('#editor', {
         theme: 'snow'
     });
-    document.getElementById('para2').style.backgroundColor = "#DCDCDC";
+    document.getElementById('note-main-grid').style.backgroundColor = "#DCDCDC";
 }
 
 async function saveNote(){

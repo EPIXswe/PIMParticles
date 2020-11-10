@@ -101,15 +101,9 @@ public class Database {
             stmt.setString(2, note.getHeader());
             stmt.setString(3, note.getContent());
             int res = stmt.executeUpdate();
-
-            // Returns true if a row was added to the table. False if not.
-            return (res > 0);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        // A new note could not be created for some reason.
-        return false;
     }
 
     public void updateNote(Note note){
