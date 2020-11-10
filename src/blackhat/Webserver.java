@@ -12,6 +12,7 @@ public class Webserver {
     Express express = new Express();
     Database db = Database.getInstance();
     boolean dBug = true;
+    Sponsor sponsor = new Sponsor();
 
     public void Start(){
 //region users
@@ -83,6 +84,6 @@ public class Webserver {
 
         int port = 2001;
         express.listen(port);
-        System.out.println("Your server at port " + port + " is brought to you by: Pizza hut");
+        System.out.println("Your server at port " + port + " is brought to you by: " + sponsor.getSponsor());
     }
 }
