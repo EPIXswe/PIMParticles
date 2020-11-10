@@ -3,7 +3,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import express.utils.Utils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
@@ -42,14 +41,13 @@ public class Database {
     public User getUserWithName(String name) {
         try {
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT * FROM users WHERE id = ?");
+                    "SELECT * FROM users WHERE username = ?");
             stmt.setString(1, name);
             ResultSet resultSet = stmt.executeQuery();
-            User user = null;
-            user = (new User(resultSet.getInt("id"),
-                    resultSet.getString("username")));
+
+            User user = ((User[])Utils.readResultSetToObject(resultSet, User[].class))[0];
             return user;
-        } catch (SQLException throwables) {
+        } catch (SQLException | JsonProcessingException throwables) {
             throwables.printStackTrace();
         }
         return null;
@@ -103,10 +101,15 @@ public class Database {
             stmt.setString(2, note.getHeader());
             stmt.setString(3, note.getContent());
             int res = stmt.executeUpdate();
-            System.out.println("Created notes: " + res);
+
+            // Returns true if a row was added to the table. False if not.
+            return (res > 0);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        // A new note could not be created for some reason.
+        return false;
     }
 
     public void updateNote(Note note){
@@ -127,8 +130,7 @@ public class Database {
 
     public void deleteNote(int noteID){
         try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM notes " +
-                    "WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM notes WHERE id = ?");
             stmt.setInt(1, noteID);
             int res = stmt.executeUpdate();
             System.out.println(res);
