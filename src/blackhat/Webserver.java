@@ -15,13 +15,15 @@ public class Webserver {
     public void Start(){
 
         //region users --------------------------------------------------------
-        express.get("/rest/login", (request, response) -> {
-            int id = Integer.parseInt((String) request.getBody().get("id"));
-            User user = db.getUserWithID(id);
+        express.get("/rest/login/:username", (request, response) -> {
+            String username = request.getParam("username");
+            System.out.println("Username: " + username);
+            User user = db.getUserWithName(username);
+            System.out.println("User: " + user.toString());
             response.json(user);
         });
 
-        express.get("/createUser", (request, response) -> {
+        express.post("/createUser", (request, response) -> {
             String username = (String) request.getBody().get("username");
             boolean canCreate = db.createNewUser(username);
             response.send(Boolean.toString(canCreate));

@@ -41,14 +41,13 @@ public class Database {
     public User getUserWithName(String name) {
         try {
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT * FROM users WHERE id = ?");
+                    "SELECT * FROM users WHERE username = ?");
             stmt.setString(1, name);
             ResultSet resultSet = stmt.executeQuery();
-            User user = null;
-            user = (new User(resultSet.getInt("id"),
-                    resultSet.getString("username")));
+
+            User user = ((User[])Utils.readResultSetToObject(resultSet, User[].class))[0];
             return user;
-        } catch (SQLException throwables) {
+        } catch (SQLException | JsonProcessingException throwables) {
             throwables.printStackTrace();
         }
         return null;

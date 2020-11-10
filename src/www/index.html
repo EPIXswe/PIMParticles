@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="stylesheetindex.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="stylesheetindex.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
 
 <h2 style="text-align: center;">Welcome to BlackHat Notes</h2>
 
   <div class="container", style="text-align: center;">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username" required style="text-align: center;"> 
+    <label><b>Username</b></label>
+    <input type="text" id="input" placeholder="Enter Username" required style="text-align: center;"> 
   </div>
 
   
   
 <div style="text-align: center;">
-      <button class="button button2 " style="text-align: center;">Log in</button>
-      <button class="button button2"  style="text-align: center;">Register</button>
+      <button class="button button2" onclick="login()" style="text-align: center;">Log in</button>
+      <button class="button button2" onclick="register()" style="text-align: center;">Register</button>
     </div>
 
 

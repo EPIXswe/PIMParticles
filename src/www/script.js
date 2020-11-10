@@ -1,48 +1,38 @@
-async function getNotesForLoggedUser() {
-    let notesObj = await fetch("/rest/notes/" + logged_user);
-    let response = await notesObj.json();
-let user = {
-    id,
-    username
-};
+let user;
 
-    let message = response.message;
-    let theData = response.data;
+async function login() {
+    // 1. Hämta text från textfältet
+    // 2. Hämta användare från servern med användarnamnet
+    // 3. Logga in användare
 
-    console.log(message);
+    let HTMLTextField = document.getElementById("input");
+    let fieldValue = HTMLTextField.value;
 
-    for(note of theData) {
-        console.log("Header:", note.header);
-        console.log("Last update:", note.last_update);
-        console.log("Content:", note.content);
-        console.log("Owner:", note.owner);
-        console.log();
-    }
-}
-let notes = {
-    id,
-    header,
-    body,
-    owner
-};
+    let webAnswer = await fetch("/rest/login/" + fieldValue);
+    user = await webAnswer.json();
 
-renderPreviewList() {
-    for(note of notes) {
-
-        let tmpButtonHTML = document.createElement("a");
-        tmpButtonHTML.setAttribute("onclick" ,  )
-        tmpButtonHTML.className = "sideButton";
-        tmpButtonHTML.innerHTML = note.header;
-        tmpButtonHTML.dataset.id = note.id;
-        tmpButtonHTML.dataset.name = "Robin";
-
-        let sidenavHTML = document.getElementsByClassName("sidenav");
-        sidenavHTML.innerHTML += sidenavHTML;
-
-    }
+    console.log(user);
 }
 
-clicked(button) {
-    let noteID = button.dataset.id;
+async function register() {
+    // 1. Hämta texten i textfältet
+    // 2. Försök skapa användare med användarnamn som texten.
+    // 3. Meddela om det gick bra eller inte.
 
+    
+
+    let HTMLusername = document.getElementById("input");
+    let username = HTMLusername.value;
+
+    let theBody = {
+        username: username
+    }
+
+    let webAnswer = await fetch("/createUser", {
+        body: JSON.stringify(theBody),
+        method: 'POST' 
+    });
+    let success = await webAnswer.json();
+
+    alert("User created: " + success);
 }
