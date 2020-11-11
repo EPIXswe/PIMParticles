@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 	<!-- Include the Quill library -->
 	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
@@ -28,8 +27,9 @@
 			<div id="editor"></div>
 
 			<div id="buttons-container">
-				<button class="standard-button">
-					Save<div class="fa fa-save" onclick="getNotesForLoggedUser()""></div>
+				<button class="standard-button" onclick="getNotesForLoggedUser()">
+					Save<div class="fa fa-save">
+					</div>
 				</button>
 				<button class="standard-button">
 					Reset<div class="fa fa-refresh"></div>

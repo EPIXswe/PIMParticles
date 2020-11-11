@@ -5,7 +5,7 @@ async function login() {
     // 2. Hämta användare från servern med användarnamnet
     // 3. Logga in användare
 
-    let HTMLTextField = document.getElementById("input");
+    let HTMLTextField = document.getElementById("login-textfield");
     let fieldValue = HTMLTextField.value;
 
     let webAnswer = await fetch("/rest/login/" + fieldValue);
@@ -14,7 +14,7 @@ async function login() {
     console.log("userid = " + user.id);
     localStorage.setItem("user", user.id);
 
-    window.open("/MainPage.html", "_self");
+    window.open("/notes.html", "_self");
 }
 
 async function register() {
@@ -22,7 +22,7 @@ async function register() {
     // 2. Försök skapa användare med användarnamn som texten.
     // 3. Meddela om det gick bra eller inte.
 
-    let HTMLusername = document.getElementById("input");
+    let HTMLusername = document.getElementById("login-textfield");
     let username = HTMLusername.value;
 
     let theBody = {
