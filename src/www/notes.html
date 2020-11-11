@@ -11,7 +11,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body onload="getNotesForLoggedUser()">
+<body onload="updateAndRenderNotes()">
 
 	<div id="notes-body">
 		<div id="sidenav">
@@ -30,7 +30,7 @@
 			</div>
 
 			<div id="buttons-container">
-				<button class="standard-button" onclick="getNotesForLoggedUser()">
+				<button class="standard-button" onclick="saveNote()">
 					Save<div class="fa fa-save"></div>
 				</button>
 				<button class="standard-button">
