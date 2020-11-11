@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<!-- Include the Quill library -->
+	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+	<script src="mainPageScript.js" defer></script>
 	<link rel="stylesheet" href="stylesheet.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<title>Blackhat notes12</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body onload="getNotesForLoggedUser()">
 
 	<div id="notes-body">
 		<div id="sidenav">
 
 			<h2 class="nav-header">My notes</h2>
+			<div id="para"></div>
 
-			<a href="#">Frukost</a>
-			<a href="#">Lunch</a>
-			<a href="#">Middag</a>
 		</div>
 
 		<div id="note-main-grid">
 			<div class="note-header">A note</div>
 
-			<textarea id="editor"></textarea>
+			<div id="quill">
+				<div id="editor-toolbar"></div>
+				<div id="editor"></div>
+			</div>
 
 			<div id="buttons-container">
-				<button class="standard-button">
+				<button class="standard-button" onclick="getNotesForLoggedUser()">
 					Save<div class="fa fa-save"></div>
 				</button>
 				<button class="standard-button">

@@ -1,7 +1,5 @@
 package blackhat;
 
-import java.sql.Date;
-
 public class Note {
     private int id;
     private String header;

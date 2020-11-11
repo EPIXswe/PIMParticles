@@ -1,0 +1,88 @@
+body{
+    background: rgb(44,46,57);
+    background: linear-gradient(0deg, rgba(25, 20, 30) 0%, 
+    rgba(41, 53, 66) 100%);
+}
+
+header{
+    padding-bottom: 25px;
+    padding-top: 25px;
+    background-color: rgb(2, 22, 99);
+    background: linear-gradient(90deg, rgba(7, 25, 50) 0%, 
+    rgba(13, 72, 72) 100%);
+    box-shadow: 5px 10px rgba(25, 25, 25, .25);
+}
+
+header > button{
+    margin-left: 2.5%;
+    width: 20%;
+    height: 5vh;
+    background-color: rgb(13, 72, 72);
+    font-family: 'Merriweather', serif;
+}
+
+header > input{
+    margin-left: 2.5%;
+    width: 20%;
+    height: 5vh;
+    background-color: rgb(113, 172, 172);
+    font-family: 'Merriweather', serif;
+    font-size: larger;
+    text-align: center;
+}
+
+.column{
+    float: left;
+    width: 25%;
+    border: red;
+    border-radius: 10px;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#para > #notes{
+    background-color: rgba(7, 25, 50);
+    background: linear-gradient(90deg, rgba(17, 35, 60) 0%, 
+    rgb(13, 62, 62) 100%);
+    margin-bottom: 2vh;
+    box-shadow: 5px 10px rgba(25, 25, 25, .25);
+    min-height: 5vh;
+    width: 100%;
+}
+
+#para > #notes > button{
+    margin-left: 12.5%;
+    width: 75%;
+    height: 5vh;
+    background-color: rgb(13, 72, 72);
+    font-family: 'Merriweather', serif;
+}
+
+#para2{
+    padding-left: 5px;
+    margin-right: 5%;
+    height: 70%;
+    width: 59%;
+    float: right;
+}
+
+#editor{
+    background-color: snow;
+    box-shadow: 5px 10px rgba(25, 25, 25, .25);
+    background: linear-gradient(180deg, rgba(229, 232, 235) 0%, 
+    rgba(169, 179, 187) 100%);
+    font-family: 'Roboto', sans-serif;
+}
+
+#save{
+    font-family: 'Merriweather', serif;
+    float: right;
+    margin-top: 5vh;
+    margin-right: 5vw;
+    height: 5vh;
+    width: 5vw;
+}
