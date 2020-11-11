@@ -6,7 +6,7 @@ let nHead;
 var quill = '';
 
 async function getNotesForLoggedUser() {
-console.log(username);
+    console.log(username);
 
     let notesObj = await fetch("/rest/notes/" + username);
     let answer = await notesObj.json();
