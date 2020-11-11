@@ -11,7 +11,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body onload="getNotesForLoggedUser()">
 
 	<div id="notes-body">
 		<div id="sidenav">
@@ -24,12 +24,14 @@
 		<div id="note-main-grid">
 			<div class="note-header">A note</div>
 
-			<div id="editor"></div>
+			<div id="quill">
+				<div id="editor-toolbar"></div>
+				<div id="editor"></div>
+			</div>
 
 			<div id="buttons-container">
 				<button class="standard-button" onclick="getNotesForLoggedUser()">
-					Save<div class="fa fa-save">
-					</div>
+					Save<div class="fa fa-save"></div>
 				</button>
 				<button class="standard-button">
 					Reset<div class="fa fa-refresh"></div>

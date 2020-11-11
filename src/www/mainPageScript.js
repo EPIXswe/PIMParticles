@@ -54,14 +54,17 @@ function returnHeader(id){
 }
 
 function renderNoteContent(note){
+
     nID = note;
     nHead = returnHeader(note);
 
-    let headerList = document.querySelector("#noteHeader");
+    let headerList = document.querySelector(".note-header");
     headerList.innerHTML = `${nHead}`;
 
-    if(quill == ''){
-            enableEditor();
+    ;
+
+    if(document.querySelector("#editor").innerHTML == "") {
+        enableEditor();
     }
     quill.setText('');
     let conLi = `${returnContent(note)}`;
@@ -69,10 +72,16 @@ function renderNoteContent(note){
 }
 
 function enableEditor(){
+
+    let toolbarOptions = [['bold', 'italic'], ['link', 'image']];
+
     quill = new Quill('#editor', {
-        theme: 'snow'
+        modules: {
+          toolbar: toolbarOptions
+        },
+        theme: "snow"
     });
-    document.getElementById('note-main-grid').style.backgroundColor = "#DCDCDC";
+      
 }
 
 async function updateNote(){

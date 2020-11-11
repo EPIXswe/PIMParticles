@@ -71,8 +71,7 @@ html, body {
 
 #editor {
   background-color: snow;
-  max-width: 69%;
-  height: 80%;
+  height: 100%;
 }
   
   #buttons {

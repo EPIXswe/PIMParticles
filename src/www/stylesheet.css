@@ -107,14 +107,27 @@ body {
     background-color: red;
 
     grid-template-columns: auto;
-    grid-template-rows: 50px auto 50px;
+    grid-template-rows: 50px auto 40px;
+}
+
+#editor {
+    margin: 0;
+    padding: 0;
+    max-height: 90%;
+}
+
+.ql-toolbar {
+    margin: 0;
+    padding: 0;
 }
 
 /* Container där knapparna Save och Reset finns (för tillfället) */
 #buttons-container {
     display: flex;
     justify-content: right;
+    align-items: center;
     padding-right: 10px;
+    background-color: greenyellow;
 }
 
 /* PROBLEM */
@@ -123,9 +136,8 @@ body {
     height: 0px;
 }
 
-textarea {
-    resize: none;
-    border: none;
+#toolbar {
+    background-color: orchid;
 }
 
 /* Style the side navigation */
@@ -159,10 +171,11 @@ textarea {
 }
    
 .note-header {
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     font-size: 200%;
+    border: 1px solid black;
 }
   
 .note-header > div {
