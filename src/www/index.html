@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="stylesheetindex.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
 
-<h2 style="text-align: center;">Welcome to BlackHat Notes</h2>
+    <div id="login-body">
 
-  <div class="container", style="text-align: center;">
-    <label><b>Username</b></label>
-    <input type="text" id="input" placeholder="Enter Username" required style="text-align: center;"> 
-  </div>
+      <div id="login-container">
 
+        <h2>Welcome to BlackHat Notes</h2>
   
+        <input type="text" id="login-textfield" placeholder="Username">
   
-<div style="text-align: center;">
-      <button class="button button2" onclick="login()" style="text-align: center;">Log in</button>
-      <button class="button button2" onclick="register()" style="text-align: center;">Register</button>
+        <div id="login-buttons">
+          <button class="standard-button hover-shadow" onclick="login()">Log in</button>
+          <button class="standard-button hover-shadow" onclick="register()">Register</button>
+        </div>
+  
+      </div>
+
     </div>
-
-
-</form>
-
-</body>
+    
+    
+  </body>
 </html>
