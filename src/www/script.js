@@ -19,8 +19,6 @@ async function register() {
     // 2. Försök skapa användare med användarnamn som texten.
     // 3. Meddela om det gick bra eller inte.
 
-    
-
     let HTMLusername = document.getElementById("input");
     let username = HTMLusername.value;
 
