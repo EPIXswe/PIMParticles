@@ -11,8 +11,16 @@ import java.util.List;
 public class Webserver {
     Express express = new Express();
     Database db = Database.getInstance();
+    boolean dBug = true;
+    Sponsor sponsor = new Sponsor();
 
     public void Start(){
+//region users
+        express.get("/rest/login", (request, response) -> {
+            System.out.println("PING: login");
+            int id = Integer.parseInt((String) request.getBody().get("id"));
+            User user = db.getUserWithID(id);
+        });
 
         //region users --------------------------------------------------------
         express.get("/rest/login/:username", (request, response) -> {
@@ -33,32 +41,40 @@ public class Webserver {
 
         //region notes --------------------------------------------------------
         express.get("/rest/notes/:owner-id", (request, response) -> {
+            System.out.println("PING: notes for user");
             int id = Integer.parseInt(request.getParam("owner-id"));
             List<Note> notes = db.getAllNotesForUser(id);
 
+            if(dBug)
+                for (Note note : notes) {
+                    System.out.println(note);
+                }
             String strMessage = String.format("All the notes for user with ID %d", id);
             ServerResponse data = ServerResponse.get(strMessage, notes);
 
             response.json(data);
         });
 
-        express.post("/createNote", (request, response) -> {
-            int owner = Integer.parseInt((String) request.getBody().get("owner"));
-            String header = (String) request.getBody().get("header");
-            String content = (String) request.getBody().get("content");
+        express.post("/createnote", (request, response) -> {
+            System.out.println("PING: CreateNote");
+            Note note = (Note)request.getBody(Note.class);
 
-            boolean success = db.createNewNote(owner, header, content);
-            String message = success ? "Note successfully created" : "Note could not be created.";
-            response.send(message);
+            System.out.println(note.toString());
+
+            response.send("Post OK");
+
+            db.createNewNote(note);
         });
 
         express.put("/updateNote", (request, response) -> {
-            int owner = Integer.parseInt((String) request.getBody().get("owner"));
-            String header = (String) request.getBody().get("header");
-            String content = (String) request.getBody().get("content");
-            int id = Integer.parseInt((String) request.getBody().get("id"));
+            System.out.println("PING: UpdateNote");
+            Note note = (Note)request.getBody(Note.class);
 
-            db.updateNote(owner, header, content, id);
+            System.out.println(note.toString());
+
+            response.send("Post OK");
+
+            db.updateNote(note);
         });
 
         express.delete("/delete", (request, response) -> {
@@ -80,6 +96,6 @@ public class Webserver {
 
         int port = 2001;
         express.listen(port);
-        System.out.println("Your server at port " + port + " is brought to you by: Pizza hut");
+        System.out.println("Your server at port " + port + " is brought to you by: " + sponsor.getSponsor());
     }
 }

@@ -92,41 +92,29 @@ public class Database {
         return null;
     }
 
-    /**
-     * Adds a new note to the database.
-     * @param owner The user that owns this note.
-     * @param header Header of the note.
-     * @param content The content of the note. Is basically HTML.
-     * @return
-     */
-    public boolean createNewNote(int owner, String header, String content){
+    public void createNewNote(Note note){
         try {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO notes(owner, header, content) " +
                             "VALUES(?, ?, ?)");
-            stmt.setInt(1, owner);
-            stmt.setString(2, header);
-            stmt.setString(3, content);
+            stmt.setInt(1, note.getOwner());
+            stmt.setString(2, note.getHeader());
+            stmt.setString(3, note.getContent());
             int res = stmt.executeUpdate();
-
-            // Returns true if a row was added to the table. False if not.
-            return (res > 0);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        // A new note could not be created for some reason.
-        return false;
     }
 
-    public void updateNote(int owner, String newHeader, String newContent, int noteID){
+    public void updateNote(Note note){
         try {
             PreparedStatement stmt = conn.prepareStatement(
-                    "UPDATE notes SET owner = ?, header = ?, content = ? WHERE id = ?");
-            stmt.setInt(1, owner);
-            stmt.setString(2, newHeader);
-            stmt.setString(3, newContent);
-            stmt.setInt(4, noteID);
+                    "UPDATE notes SET owner = ?, header = ?, " +
+                            "content = ? WHERE id = ?");
+            stmt.setInt(1, note.getOwner());
+            stmt.setString(2, note.getHeader());
+            stmt.setString(3, note.getContent());
+            stmt.setInt(4, note.getId());
             int res = stmt.executeUpdate();
             System.out.println("Created notes: " + res);
         } catch (SQLException throwables) {

@@ -11,7 +11,10 @@ async function login() {
     let webAnswer = await fetch("/rest/login/" + fieldValue);
     user = await webAnswer.json();
 
-    console.log(user);
+    console.log("userid = " + user.id);
+    localStorage.setItem("user", user.id);
+
+    window.open("/MainPage.html", "_self");
 }
 
 async function register() {
