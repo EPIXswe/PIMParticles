@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="mainPageScript.js" defer></script>
 </head>
-<body>
+<body onload="getNotesForLoggedUser()">
   <div class="sidenav">
       <div class ="header">
           <h2>My notes</h2>
@@ -25,14 +25,13 @@
   </div>
 
   <div id="note-main-grid">
-    <div class="note-header">
+    <div class="note-header"id="noteHeader">
       A note
     </div>
     <div id="editor"></div>
     <div style="text-align: right;">
-      <button class="button button2" style="font-size:16px" onclick="getNotesForLoggedUser()">Save<div class="fa fa-save"> </div></button>
+      <button class="button button2" style="font-size:16px" onclick="updateNote()">Save<div class="fa fa-save"> </div></button>
       <button class="button button2"  style="font-size:16px">Reset<i class="fa fa-refresh"> </i></button>
     </div>
   </div>
-
 </body>

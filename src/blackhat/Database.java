@@ -116,7 +116,7 @@ public class Database {
             stmt.setString(3, note.getContent());
             stmt.setInt(4, note.getId());
             int res = stmt.executeUpdate();
-            System.out.println("Created notes: " + res);
+            System.out.println("Updated notes: " + res);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

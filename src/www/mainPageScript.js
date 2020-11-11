@@ -56,6 +56,10 @@ function returnHeader(id){
 function renderNoteContent(note){
     nID = note;
     nHead = returnHeader(note);
+
+    let headerList = document.querySelector("#noteHeader");
+    headerList.innerHTML = `${nHead}`;
+
     if(quill == ''){
             enableEditor();
     }
@@ -71,17 +75,32 @@ function enableEditor(){
     document.getElementById('note-main-grid').style.backgroundColor = "#DCDCDC";
 }
 
-async function saveNote(){
+async function updateNote(){
     let updatedNote = {
         id: parseInt(nID),
         header: nHead,
-        content: quill.getText(0, quill.getLength()),
-        owner: parseInt(logged_user)
+        content: quill.getText(0, (quill.getLength() - 1)),
+        owner: parseInt(username)
     };
 
     let result = await fetch("/updateNote", {
         method: "PUT",
         body: JSON.stringify(updatedNote)
+    });
+
+    console.log(await result.text());
+}
+
+async function createNewNote(){
+    let newNote = {
+        header: nHead,
+        content: quill.getText(0, (quill.getLength() - 1)),
+        owner: parseInt(username)
+    };
+
+    let result = await fetch("/createnote", {
+        method: "POST",
+        body: JSON.stringify(newNote)
     });
 
     console.log(await result.text());
