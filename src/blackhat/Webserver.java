@@ -72,16 +72,19 @@ public class Webserver {
 
             System.out.println(note.toString());
 
-            response.send("Post OK");
-
             db.updateNote(note);
+
+            response.send("Post OK");
         });
 
         express.delete("/delete", (request, response) -> {
             Note noteToDelete = (Note)request.getBody(Note.class);
             System.out.println("Deleting");
+            
             int id = noteToDelete.getId();
+
             db.deleteNote(id);
+            response.send("Deleted OK");
         });
         //endregion -----------------------------------------------------------
 

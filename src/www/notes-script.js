@@ -65,19 +65,24 @@ function noteClicked(noteID) {
     }
 }
 
-
 async function updateAndRenderNotes() {
-    await updateNotes();
+    await updateNotes(false);
     renderNotesList();
 }
 
 /**
  * Updates notes list (sends request to server)
  */
-async function updateNotes() {
+async function updateNotes(isSelected) {
     let serverAnswer = await fetch("/rest/notes/" + loggedUserID);
     let json = await serverAnswer.json();
     notes = json.data;
+
+    renderNotesList();
+    if(isSelected){
+        renderNoteContent(selectedNoteID);
+        noteClicked(selectedNoteID);
+    }
 }
 
 // Lägg till Content från vald note till Quill
@@ -93,9 +98,13 @@ function renderNoteContent(noteID) {
         enableEditor();
     }
 
-    let strContent = getContent(selectedNoteID);
-    let delta = JSON.parse(strContent);
-    quill.setContents(delta);
+    try{
+        let strContent = getContent(selectedNoteID);
+        let delta = JSON.parse(strContent);
+        quill.setContents(delta);
+    }catch(err){
+        quill.setContents("");
+    }
 }
 
 function resetNote(){
@@ -152,14 +161,14 @@ async function saveNote() {
     });
 
     console.log(await result.text());
-    updateNotes();
+    updateNotes(true);
 }
 
 // Spara ner en ny note
 async function createNewNote(){
     let newNote = {
-        header: selectedNoteHeader,
-        content: quill.getText(0, (quill.getLength() - 1)),
+        header: "New note",
+        content: "",
         owner: parseInt(loggedUserID)
     };
 
@@ -169,15 +178,12 @@ async function createNewNote(){
     });
 
     console.log(await result.text());
+    updateNotes(false);
 }
 
 async function deleteNote(){
-
     let savedNote = {
         id: selectedNoteID,
-        header: document.querySelector(".note-header").innerHTML,
-        content: JSON.stringify(quill.getContents()),
-        owner: loggedUserID
     };
 
     let result = await fetch("/delete", {
@@ -186,6 +192,5 @@ async function deleteNote(){
     });
 
     console.log(await result.text());
-    updateNotes();
-    location.reload();
+    updateNotes(false);
 }
