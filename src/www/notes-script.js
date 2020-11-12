@@ -54,6 +54,7 @@ function returnHeader(id){
 }
 
 function renderNoteContent(note){
+    getNotesForLoggedUser();
 
     nID = note;
     nHead = returnHeader(note);
@@ -69,6 +70,10 @@ function renderNoteContent(note){
     quill.setText('');
     let conLi = `${returnContent(note)}`;
         quill.insertText(0, conLi);
+}
+
+function resetNote(){
+    renderNoteContent(nID);
 }
 
 function enableEditor(){

@@ -4,7 +4,7 @@
     --shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     --background-color: rgb(0, 128, 128);
     --border-color: rgb(0, 73, 73);
-    --selected-color: rgb(0, 110, 110);
+    --selected-color:rgb(0, 128, 128);
 }
 
 /* GLOBAL -------------------------------------------------------------------*/
@@ -47,6 +47,34 @@ body {
     background-color: var(--selected-color);
 }
 
+.special-round-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 24px;
+    cursor: pointer;
+    border: 1px;
+    border-radius: 100%;
+    height: 0px;
+    margin-left: none;
+}
+
+.special-round-button > div {
+    display: flex;
+    align-items: center;
+    margin: 0 13px 0 5px;
+}
+
+.special-round-button:hover {
+    background-color: var(--selected-color);
+}
+
+button:focus {
+    outline:0;
+}
+
 /* LOGIN --------------------------------------------------------------------*/
 
 #login-body {
@@ -77,7 +105,24 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     background-color: rgba(var(--background-color));
+    color: White;
 }
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color:  rgb(250, 192, 184);;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(250, 192, 184);;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color:  rgb(250, 192, 184);;
+  }
+  
+    
+
+
 
 #login-textfield:focus {
     background-color: var(--selected-color);
@@ -108,6 +153,17 @@ body {
 
     grid-template-columns: auto;
     grid-template-rows: 50px auto 40px;
+}
+
+#note-header-grid {
+    display: grid;
+    grid-template-columns: auto 100px;
+}
+
+#note-header-grid .standard-button {
+    display: inline-flex;
+    justify-self: center;
+    align-self: center;
 }
 
 #editor {
@@ -142,8 +198,8 @@ body {
 
 /* Style the side navigation */
 #sidenav {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 50px auto 50px;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
@@ -157,6 +213,16 @@ body {
     text-decoration: none;
     display: block;
 }
+
+.add-delete-container{
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+
+}
+
+
+
 
 /* Change color on hover */
 #sidenav a:hover {
@@ -183,3 +249,4 @@ body {
     text-align: center;
     font-size: 100%;
 }
+
