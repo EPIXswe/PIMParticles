@@ -59,7 +59,7 @@ public class Webserver {
             System.out.println("PING: CreateNote");
             Note note = (Note)request.getBody(Note.class);
 
-            System.out.println(note.toString());
+            System.out.println("New note created");
 
             response.send("Post OK");
 

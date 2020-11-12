@@ -18,7 +18,7 @@ async function login() {
     window.open("/notes.html", "_self");
     }
     catch(err){
-        alert("Wrong username!");
+        alert("This user is not registered");
     }
 }
 

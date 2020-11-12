@@ -44,7 +44,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: var(--button-color);
-    background: linear-gradient(90deg, var(--button-color) 80%,
+    background: linear-gradient(90deg, var(--focus-color) -50%, var(--button-color) 20%, var(--button-color) 80%,
      var(--focus-color) 150%);
     text-decoration: none;
     font-size: 100%;
@@ -61,7 +61,7 @@ body {
 }
 
 .header-button:hover{
-    background-color: var(--selected-color);
+    background: var(--focus-color);
 }
 
 .standard-button:focus{
@@ -95,7 +95,7 @@ body {
 }
 
 .special-round-button:hover {
-    background-color: var(--selected-color);
+    color: var(--button-color);
 }
 
 button:focus {
@@ -147,10 +147,6 @@ button:focus {
   ::-ms-input-placeholder { /* Microsoft Edge */
     color:  rgb(250, 192, 184);;
   }
-  
-    
-
-
 
 #login-textfield:focus {
     background-color: var(--focus-color);
@@ -181,7 +177,7 @@ button:focus {
      rgba(246, 246, 242) 50%);
 
     grid-template-columns: auto;
-    grid-template-rows: 50px auto 40px;
+    grid-template-rows: 65px  auto 40px;
     box-shadow: var(--shadow);
 }
 
@@ -217,7 +213,10 @@ button:focus {
 }
 
 #logout-button{
-    margin-left: 85%;
+    height: 100%;
+    width: 20%;
+    margin: 0;
+    border-radius: 0;
 }
 
 /* PROBLEM */
@@ -256,9 +255,6 @@ button:focus {
 
 }
 
-
-
-
 /* Change color on hover */
 #sidenav a:hover {
     background-color: var(--selected-color);
@@ -279,12 +275,12 @@ button:focus {
     border: 1px solid black;
     background: linear-gradient(90deg, var(--button-color) 20%,
      var(--focus-color) 80%);
+     width: 80%;
 }
-  
-.note-header > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    font-size: 100%;
+
+.top-header{
+    display: inline-flex;
+    margin: 0;
 }
 
 #header-buttons {

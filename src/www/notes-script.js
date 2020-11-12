@@ -10,7 +10,7 @@ let quill = '';
 
 // Olika färger från CSS
 let colFocus = getComputedStyle(document.documentElement)
-.getPropertyValue('--focus-color');
+.getPropertyValue('--background-color');
 
 let colButton = getComputedStyle(document.documentElement)
 .getPropertyValue('--button-color');
@@ -55,6 +55,7 @@ function getHeader(id) {
 function noteClicked(noteID) {
     selectedNoteID = noteID;
     renderNoteContent(noteID);
+    
     let x = document.getElementsByName("hButton");
     for(i = 0; i < x.length; i++){
         if(x[i].getAttribute('id') == "header-buttons hButton" + noteID){
