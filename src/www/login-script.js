@@ -7,14 +7,19 @@ async function login() {
 
     let HTMLTextField = document.getElementById("login-textfield");
     let fieldValue = HTMLTextField.value;
-
+    
+    try{
     let webAnswer = await fetch("/rest/login/" + fieldValue);
+    
     user = await webAnswer.json();
-
-    console.log("userid = " + user.id);
+    console.log("Login OK");
     localStorage.setItem("user", user.id);
 
     window.open("/notes.html", "_self");
+    }
+    catch(err){
+        alert("Wrong username!");
+    }
 }
 
 async function register() {

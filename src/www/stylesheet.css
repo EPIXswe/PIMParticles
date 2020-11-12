@@ -216,6 +216,10 @@ button:focus {
     background-color: var(--selected-color);
 }
 
+#logout-button{
+    margin-left: 85%;
+}
+
 /* PROBLEM */
 #buttons-container div {
     width: 0px;

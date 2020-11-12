@@ -170,13 +170,3 @@ async function createNewNote(){
 
     console.log(await result.text());
 }
-
-$(function(){
-    $('a#logout-button').click(function(){
-        if(confirm('Are you sure to logout')) {
-            return true;
-        }
-
-        return false;
-    });
-});
