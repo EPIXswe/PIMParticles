@@ -98,6 +98,10 @@ function renderNoteContent(noteID) {
     quill.setContents(delta);
 }
 
+function resetNote(){
+    renderNoteContent(selectedNoteID);
+}
+
 // Visa quill
 function enableEditor(){
 
