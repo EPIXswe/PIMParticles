@@ -42,6 +42,7 @@ var input = document.getElementById("login-textfield");
 input.addEventListener("keyup", function(event) {
     event.preventDefault();
   if (event.keyCode === 13) {
+   event.preventDefault();
    document.getElementById("login1").click();
   }
 });

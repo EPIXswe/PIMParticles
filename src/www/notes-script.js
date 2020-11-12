@@ -8,6 +8,13 @@ let selectedNoteID;
 // Skapar Quill redan här, för att kunna nämna den i annan kod
 let quill = '';
 
+// Olika färger från CSS
+let colFocus = getComputedStyle(document.documentElement)
+.getPropertyValue('--focus-color');
+
+let colButton = getComputedStyle(document.documentElement)
+.getPropertyValue('--button-color');
+
 // En funktion för att skriva ut alla notes i HTML, har ID'n "para", går bra att byta
 function renderNotesList() {
     let HTMLNoteList = document.querySelector("#para");
@@ -17,10 +24,10 @@ function renderNotesList() {
     for(let note of notes) {
         let noteLi = `
                 <div id="notes">
-                    <button onclick="noteClicked(${note.id})">
+                    <button onclick="noteClicked(${note.id})" class="header-button hover-shadow" 
+                    id="header-buttons hButton${note.id}" name="hButton" data>
                         ${note.header}
                     </button>
-                    <br>
                 </div>`;
 
         HTMLNoteList.innerHTML += noteLi;
@@ -48,6 +55,14 @@ function getHeader(id) {
 function noteClicked(noteID) {
     selectedNoteID = noteID;
     renderNoteContent(noteID);
+    let x = document.getElementsByName("hButton");
+    for(i = 0; i < x.length; i++){
+        if(x[i].getAttribute('id') == "header-buttons hButton" + noteID){
+            x[i].style.background = colFocus;
+        }else{
+            x[i].style.background = '';
+        }
+    }
 }
 
 
