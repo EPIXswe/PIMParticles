@@ -87,7 +87,7 @@ function enableEditor(){
 async function updateNote(){
     let updatedNote = {
         id: parseInt(nID),
-        header: nHead,
+        header: document.querySelector(".note-header").innerHTML,
         content: quill.getText(0, (quill.getLength() - 1)),
         owner: parseInt(username)
     };
