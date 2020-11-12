@@ -122,10 +122,9 @@ async function saveNote() {
 
     let savedNote = {
         id: selectedNoteID,
-        header: getHeader(selectedNoteID),
+        header: document.querySelector(".note-header").innerHTML,
         content: JSON.stringify(quill.getContents()),
         owner: loggedUserID
-        header: document.querySelector(".note-header").innerHTML,
     };
 
     let result = await fetch("/updateNote", {
