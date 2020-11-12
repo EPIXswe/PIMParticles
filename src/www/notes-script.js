@@ -130,18 +130,41 @@ function enableEditor(){
         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         [{ 'font': [] }],
         [{ 'align': [] }],
+        [ 'image' ],
       
         ['clean']                                         // remove formatting button
       ];
 
     quill = new Quill('#editor', {
         modules: {
-          toolbar: toolbarOptions
+          toolbar: {
+              container: toolbarOptions,
+              handlers: imageHandler
+          }
         },
         scrollingContainer: '#scrolling-container',
         theme: "snow"
     });
 }
+
+const imageHandler = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+    input.onchange = async function() {
+      const file = input.files[0];
+      console.log('User trying to uplaod this:', file);
+
+      const id = await uploadFile(file); // I'm using react, so whatever upload function
+      const range = this.quill.getSelection();
+      const link = `${ROOT_URL}/file/${id}`;
+
+      // this part the image is inserted
+      // by 'image' option below, you just have to put src(link) of img here. 
+      this.quill.insertEmbed(range.index, 'image', link); 
+    }.bind(this); // react thing
+  }
 
 // Spara ner en note som finns sen innan
 async function saveNote() {
