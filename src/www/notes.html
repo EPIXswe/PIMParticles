@@ -5,6 +5,8 @@
 	<!-- Include the Quill library -->
 	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 	<script src="notes-script.js" defer></script>
+	<script src="https://kit.fontawesome.com/yourcode.js"></script>
+	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 	<link rel="stylesheet" href="stylesheet.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<title>Blackhat notes12</title>
@@ -13,16 +15,33 @@
 </head>
 <body onload="updateAndRenderNotes()">
 
+
+
+
+
 	<div id="notes-body">
 		<div id="sidenav">
-
 			<h2 class="nav-header">My notes</h2>
 			<div id="para"></div>
+			<div class="add-delete-container"> 
+				<button class="special-round-button fas fa-trash-alt"></button> 
+				<button class="special-round-button  fas fa-plus-circle"></button>
+			</div>
+			</div>
 
-		</div>
 
+
+
+
+
+
+		<div id="note-main-grid">
 		<div id="note-main-grid"> 
 			<div contenteditable="true" class="note-header">A note</div> <!-- Made div editable/Robin -->
+
+			<div id="note-header-grid"><h1 class="note-header"> A note</h1>
+				<button class="standard-button">Logout</button>
+			</div>
 
 			<div id="quill">
 				<div id="editor-toolbar"></div>
@@ -33,7 +52,7 @@
 				<button class="standard-button" onclick="saveNote()">
 					Save<div class="fa fa-save"></div>
 				</button>
-				<button class="standard-button">
+				<button class="standard-button" onclick="resetNote()">
 					Reset<div class="fa fa-refresh"></div>
 				</button>
 			</div>
