@@ -163,10 +163,29 @@ async function createNewNote(){
         owner: parseInt(loggedUserID)
     };
 
-    let result = await fetch("/createnote", {
+    let result = await fetch("/createNote", {
         method: "POST",
         body: JSON.stringify(newNote)
     });
 
     console.log(await result.text());
+}
+
+async function deleteNote(){
+
+    let savedNote = {
+        id: selectedNoteID,
+        header: document.querySelector(".note-header").innerHTML,
+        content: JSON.stringify(quill.getContents()),
+        owner: loggedUserID
+    };
+
+    let result = await fetch("/delete", {
+        method: "DELETE",
+        body: JSON.stringify(savedNote)
+    });
+
+    console.log(await result.text());
+    updateNotes();
+    location.reload();
 }

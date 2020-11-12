@@ -55,7 +55,7 @@ public class Webserver {
             response.json(data);
         });
 
-        express.post("/createnote", (request, response) -> {
+        express.post("/createNote", (request, response) -> {
             System.out.println("PING: CreateNote");
             Note note = (Note)request.getBody(Note.class);
 
@@ -78,9 +78,9 @@ public class Webserver {
         });
 
         express.delete("/delete", (request, response) -> {
-            request.getParam("id");
+            Note noteToDelete = (Note)request.getBody(Note.class);
             System.out.println("Deleting");
-            int id = Integer.parseInt((String) request.getBody().get("id"));
+            int id = noteToDelete.getId();
             db.deleteNote(id);
         });
         //endregion -----------------------------------------------------------
