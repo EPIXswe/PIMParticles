@@ -14,6 +14,7 @@ async function login() {
     user = await webAnswer.json();
     console.log("Login OK");
     localStorage.setItem("user", user.id);
+    localStorage.setItem("username", user.username);
 
     window.open("/notes.html", "_self");
     }

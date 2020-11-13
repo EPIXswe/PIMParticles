@@ -10,13 +10,43 @@ let quill = '';
 
 // Olika färger från CSS
 let colFocus = getComputedStyle(document.documentElement)
-.getPropertyValue('--background-color');
+.getPropertyValue('--red-gradient-button');
+let colFocus2 = getComputedStyle(document.documentElement)
+.getPropertyValue('--red-selected-color');
 
 let colButton = getComputedStyle(document.documentElement)
-.getPropertyValue('--button-color');
+.getPropertyValue('--teal-button-color');
+
+let colBlackText = getComputedStyle(document.documentElement)
+.getPropertyValue('--text-black');
+
+let colMedEmphText = getComputedStyle(document.documentElement)
+.getPropertyValue('--text-med-emphasis');
+
+// Sortera listan av notes efter datum
+function sortNotesList(){
+    notes.sort(GetSortOrder("last_update"));
+}   
+
+function GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return -1;    
+        } else if (a[prop] < b[prop]) {    
+            return 1;    
+        }    
+        return 0;    
+    }    
+}  
 
 // En funktion för att skriva ut alla notes i HTML, har ID'n "para", går bra att byta
 function renderNotesList() {
+    let username = localStorage.getItem("username");
+    console.log(username);
+    let navHeader = document.querySelector(".nav-header");
+
+    navHeader.innerHTML = username + "'s notes";
+
     let HTMLNoteList = document.querySelector("#para");
 
     HTMLNoteList.innerHTML = "";
@@ -24,13 +54,22 @@ function renderNotesList() {
     for(let note of notes) {
         let noteLi = `
                 <div id="notes">
-                    <button onclick="noteClicked(${note.id})" class="header-button hover-shadow" 
-                    id="header-buttons hButton${note.id}" name="hButton" data>
+                    <button title="${note.last_update}" onclick="noteClicked(${note.id})" class="header-button hover-shadow" 
+                    id="header-buttons hButton${note.id}" name="hButton" onmouseover="buttonHover(this, true)" onmouseout="buttonHover(this, false)" data>
                         ${note.header}
                     </button>
                 </div>`;
 
         HTMLNoteList.innerHTML += noteLi;
+    }
+}
+
+function buttonHover(x, isHovering){
+    if(x.id == "header-buttons hButton"+selectedNoteID){
+        if(isHovering)
+            x.style.background = colFocus2;
+            else
+            x.style.background = colFocus;
     }
 }
 
@@ -53,22 +92,40 @@ function getHeader(id) {
 }
 
 function noteClicked(noteID) {
+    toggleEditor(true);
     selectedNoteID = noteID;
-    renderNoteContent(noteID);
+    renderNoteContent(noteID, true);
+    renderSaveResetButtons();
     
     let x = document.getElementsByName("hButton");
     for(i = 0; i < x.length; i++){
         if(x[i].getAttribute('id') == "header-buttons hButton" + noteID){
-            x[i].style.background = colFocus;
+            x[i].style.background = colFocus2;
+            x[i].style.color = colBlackText;
         }else{
             x[i].style.background = '';
+            x[i].style.color = colMedEmphText;
         }
     }
 }
 
+function renderSaveResetButtons(){
+    let srButtons = document.querySelector("#buttons-container");
+    srButtons.innerHTML = `
+    <button class="standard-button save-button" onclick="saveNote()" title="Hover text">
+        Save<div class="fa fa-save"></div>
+    </button>
+    <button class="standard-button" onclick="resetNote()">
+        Reset<div class="fa fa-refresh" title="Hover text"></div>
+    </button>
+    `;
+}
+
 async function updateAndRenderNotes() {
+    if(document.querySelector("#editor").innerHTML == "") {
+        initializeEditor();
+    }
     await updateNotes(false);
-    renderNotesList();
 }
 
 /**
@@ -78,42 +135,44 @@ async function updateNotes(isSelected) {
     let serverAnswer = await fetch("/rest/notes/" + loggedUserID);
     let json = await serverAnswer.json();
     notes = json.data;
+    
+    sortNotesList();
 
     renderNotesList();
     if(isSelected){
-        renderNoteContent(selectedNoteID);
+        renderNoteContent(selectedNoteID, isSelected);
         noteClicked(selectedNoteID);
     }
 }
 
 // Lägg till Content från vald note till Quill
 //Ändrar headern ovanför quill till rätt Header
-function renderNoteContent(noteID) {
+function renderNoteContent(noteID, isSelected) {
     
     selectedNoteHeader = getHeader(noteID);
 
     let headerList = document.querySelector(".note-header");
     headerList.innerHTML = `${selectedNoteHeader}`;
-
-    if(document.querySelector("#editor").innerHTML == "") {
-        enableEditor();
-    }
-
-    try{
-        let strContent = getContent(selectedNoteID);
-        let delta = JSON.parse(strContent);
-        quill.setContents(delta);
-    }catch(err){
+    if(isSelected){
+        try{
+            let strContent = getContent(selectedNoteID);
+            let delta = JSON.parse(strContent);
+            quill.setContents(delta);
+        }catch(err){
+            quill.setContents("");
+        }
+    }else{
+        headerList.innerHTML = "";
         quill.setContents("");
     }
 }
 
 function resetNote(){
-    renderNoteContent(selectedNoteID);
+    renderNoteContent(selectedNoteID, true);
 }
 
 // Visa quill
-function enableEditor(){
+function initializeEditor(){
 
     let toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -146,6 +205,17 @@ function enableEditor(){
         scrollingContainer: '#scrolling-container',
         theme: "snow"
     });
+
+    toggleEditor(false);
+}
+
+function toggleEditor(isHidden){
+    let x = document.getElementById("quill");
+    if(isHidden){
+        x.style.display = "block";
+    }else{
+        x.style.display = "none";
+    }
 }
 
 const imageHandler = () => {
@@ -190,8 +260,21 @@ async function saveNote() {
 
 // Spara ner en ny note
 async function createNewNote(){
+    let newHeader = "New Note";
+    let headerPostfix = 1;
+    for(i = 0; i < notes.length; i++){
+        if(notes[i].header == newHeader){
+            console.log(notes[i].header);
+            newHeader = "New Note" + "(" + headerPostfix + ")";
+            for(j = 0; j < notes.length; j++){
+                if(notes[j].header == newHeader)
+                headerPostfix++;
+                newHeader = "New Note" + "(" + headerPostfix + ")";
+            }
+        }
+    }
     let newNote = {
-        header: "New note",
+        header: newHeader,
         content: "",
         owner: parseInt(loggedUserID)
     };
@@ -216,5 +299,8 @@ async function deleteNote(){
     });
 
     console.log(await result.text());
+
+    toggleEditor(false);
+
     updateNotes(false);
 }
