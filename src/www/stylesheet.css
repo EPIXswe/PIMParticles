@@ -2,9 +2,55 @@
 
 :root {
     --shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-    --background-color: rgb(0, 128, 128);
-    --border-color: rgb(0, 73, 73);
-    --selected-color: rgb(0, 110, 110);
+    --shadow-small: 2px 2px 2px rgba(0,0,0,0.20), 4px 4px 4px rgba(0,0,0,0.10);
+    /*  Purple  */
+    --purple-standard-color: rgb(170, 130, 190);
+    --purple-border-color: rgb(62, 53, 67);
+    --purple-selected-color: rgb(171, 146, 187);
+    --purple-focus-color:  rgb(205, 190, 214);
+    --purple-button-color: rgb(103, 88, 112);
+
+    --purple-gradient-button: linear-gradient(90deg, var(--purple-border-color) -50%, var(--purple-button-color) 20%, var(--purple-button-color) 80%,
+    var(--purple-border-color) 150%);
+    /*  Teal    */
+    --teal-standard-color: rgb(82, 126, 143);
+    --teal-border-color: rgb(40, 61, 68);
+    --teal-selected-color: rgb(86, 122, 135);
+    --teal-focus-color:  rgb(107, 152, 169);
+    --teal-button-color: rgb(66, 101, 114);
+
+    --teal-gradient-button: linear-gradient(90deg, var(--teal-border-color) -50%, var(--teal-button-color) 20%, var(--teal-button-color) 80%,
+    var(--teal-border-color) 150%);
+    /*  Orange  */
+    --orange-standard-color: rgb(212, 115, 30);
+    --orange-border-color: rgb(85, 46, 12);
+    --orange-selected-color: rgb(212, 115, 30);
+    --orange-focus-color:  rgb(221, 143, 75);
+    --orange-button-color: rgb(170, 92, 24);
+
+    --orange-gradient-button: linear-gradient(90deg, var(--orange-border-color) -50%, var(--orange-button-color) 20%, var(--orange-button-color) 80%,
+    var(--orange-border-color) 150%);
+    /*  Red  */
+    --red-standard-color: rgb(151, 51, 73);
+    --red-border-color: rgb(76, 26, 37);
+    --red-selected-color: rgb(155, 83, 98);
+    --red-focus-color:  rgb(172, 92, 109);
+    --red-button-color: rgb(121, 41, 58);
+
+    --red-gradient-button: linear-gradient(90deg, var(--red-border-color) -50%, var(--red-button-color) 20%, var(--red-button-color) 80%,
+    var(--red-border-color) 150%);
+
+    /*  Standard colors */
+    --login-top: rgb(61, 61, 61);
+    --login-bottom: rgb(30, 30, 30);
+    --darkest-background: rgb(20, 20, 18);
+    --text-high-emphasis: rgba(255, 255, 255, 0.87);
+    --text-med-emphasis: rgba(255, 255, 255, 0.6);
+    --text-low-emphasis: rgba(255, 255, 255, 0.38);
+    --text-black: rgba(30, 30, 30, .87);
+
+    --dark-gradient: linear-gradient(90deg, var(--login-bottom) -100%, var(--login-top) 350%);
+    --editor-gradient: linear-gradient(180deg, var(--login-top) -200vh, var(--login-bottom) 100vh);
 }
 
 /* GLOBAL -------------------------------------------------------------------*/
@@ -14,20 +60,40 @@
 }
 
 html, body {
-    height: 100%;
+    height: 100%;;
 }
   
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    color: black;
+    color: var(--text-high-emphasis);
 }
 
 .standard-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: teal;
+    background-color: var(--login-top);
+    box-shadow: inset 0 0 30px var(--login-bottom);
+    text-decoration: none;
+    font-size: 100%;
+    cursor: pointer;
+    border: 1px solid black;
+    height: 25px;
+    margin-left: 5px;
+
+    transition: 0.15s ease;
+}
+
+.save-button{
+    background-color: var(--orange-border-color);
+}
+
+.login-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--teal-button-color);
     text-decoration: none;
     font-size: 100%;
     cursor: pointer;
@@ -35,6 +101,58 @@ body {
     border-radius: 3px;
     height: 25px;
     margin-left: 5px;
+    color: var(--text-med-emphasis);
+    box-shadow: var(--shadow-small);
+    transition: .15s ease;
+}
+
+.header-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--teal-gradient-button);
+    text-decoration: none;
+    font-size: 100%;
+    cursor: pointer;
+    border: 1px solid black;
+    height: 10vh;
+    width: 100%;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    margin-top: 5px;
+}
+
+.standard-button:hover{
+    background-color: var(--red-selected-color);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
+           box-shadow: inset 0 0 4px black;
+}
+
+.login-button:hover{
+    background-color: var(--teal-selected-color);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
+           color: var(--text-high-emphasis);
+}
+
+.header-button:hover{
+    background: var(--teal-focus-color);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-2px -2px 4px rgba(255,255,255,.5));
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-2px -2px 4px rgba(255,255,255,.5));
+}
+
+.standard-button:focus{
+    background-color: var(--teal-focus-color);
+}
+
+.login-button:focus{
+    background-color: var(--teal-focus-color);
 }
 
 .standard-button > div {
@@ -43,8 +161,100 @@ body {
     margin: 0 13px 0 5px;
 }
 
-.standard-button:hover {
-    background-color: var(--selected-color);
+.login-button > div {
+    display: flex;
+    align-items: center;
+    margin: 0 13px 0 5px;
+}
+
+.fa-plus-circle{
+    color: var(--orange-standard-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    font-size: 24px;
+    cursor: pointer;
+    border: 1px;
+    border-radius: 100%;
+    margin-left: none;
+    height: 30px;
+    width: 30px;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, .5);
+
+    transition: 0.15s ease;
+}
+
+.fa-trash-alt{
+    color: var(--red-standard-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    font-size: 24px;
+    cursor: pointer;
+    border: 1px;
+    border-radius: 0%;
+    margin-left: none;
+    height: 30px;
+    width: 20px;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, .5);
+
+    transition: .15s ease;
+}
+
+.special-round-button > div {
+    display: flex;
+    align-items: center;
+    margin: 0 13px 0 5px;
+}
+
+.fa-plus-circle:hover {
+    color: var(--orange-focus-color);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+}
+
+.fa-trash-alt:hover {
+    color: var(--red-focus-color);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+}
+
+.login-register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--orange-button-color);
+    text-decoration: none;
+    font-size: 100%;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 3px;
+    height: 25px;
+    margin-left: 5px;
+    color: var(--text-black);
+}
+
+.login-register:hover{
+    background-color: var(--orange-selected-color);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+           color: var(--text-low-emphasis);
+}
+
+.login-register:focus{
+    background-color: var(--orange-focus-color);
+}
+
+button:focus {
+    outline:0;
 }
 
 /* LOGIN --------------------------------------------------------------------*/
@@ -54,11 +264,13 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
-    background-color: tomato;
+    background-color: rgb(205, 209, 197);
+    background: linear-gradient(180deg, var(--login-top) 0%,
+     var(--login-bottom) 100%);
 }
 
 #login-body .standard-button {
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--purple-border-color);
 }
 
 #login-container {
@@ -66,21 +278,38 @@ body {
     grid-template-columns: auto;
     grid-template-rows: auto 40px 40px;
     margin-bottom: 10%;
-    background-color: teal;
+    background: var(--teal-gradient-button);
     padding: 20px;
     border-radius: 5px;
     box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--teal-border-color);
+    text-shadow: var(--shadow-small);
 }
 
 #login-textfield {
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--teal-border-color);
     border-radius: 5px;
-    background-color: rgba(var(--background-color));
+    background-color: var(--teal-border-color);
+    color: var(--text-high-emphasis);
+    box-shadow: var(--shadow-small);
+
+    transition: 0.25s ease;
 }
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color:  var(--text-med-emphasis);
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:  var(--text-med-emphasis);
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color:  var(--text-med-emphasis);
+  }
 
 #login-textfield:focus {
-    background-color: var(--selected-color);
+    background-color: var(--teal-standard-color);
 }
 
 #login-buttons {
@@ -103,36 +332,133 @@ body {
     grid-template-columns: 20% auto;
 }
 
-/* Style the side navigation */
-#sidenav {
-    display: flex;
-    flex-direction: column;
+#notes{
+    box-shadow: 0 3px 16px rgba(0, 0, 0, .2);
+}
+
+/* hela rutan på högra sidan som innehåller anteckningens rubrik, editor och knappar. */
+#note-main-grid {
+    display: grid;
+    background: linear-gradient(0deg, var(--darkest-background) 0vh, var(--login-bottom) 100vh);
+
+    grid-template-columns: auto;
+    grid-template-rows: 65px  auto 40px;
+    box-shadow: var(--shadow), inset 2vw 100px 32px rgba(0, 0, 0, 0.05), inset 0 30px 100px rgba(0, 0, 0, 0.2);
+}
+
+#note-header-grid {
+    display: grid;
+    grid-template-columns: auto 100px;
+}
+
+#note-header-grid .standard-button {
+    display: inline-flex;
+    justify-self: center;
+    align-self: center;
+}
+
+#quill{
+    display: block;
+    border: none;
+}
+
+#editor {
     margin: 0;
     padding: 0;
-    border-right: 1px solid black;
+    max-height: 90%;
+}
 
-    max-height: 100%;
+.ql-toolbar {
+    margin: 0;
+    padding: 0;
+    background: var(--login-bottom);
+    border: none
+}
+
+.ql-editor{
+    max-height: 84.8vh;
+    min-height: 20vh;
+    border: none;
+    background: var(--editor-gradient);
+}
+
+/* Container där knapparna Save och Reset finns (för tillfället) */
+#buttons-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 10px;
+    background: var(--dark-gradient);
+    box-shadow: inset 0 -6px 6px rgba(0, 0, 0, 0.4);
+}
+
+#logout-button{
     height: 100%;
+    width: 20%;
+    margin: 0;
+    border-radius: 0;
+    color: var(--text-med-emphasis);
+}
+
+/* PROBLEM */
+#buttons-container div {
+    width: 0px;
+    height: 0px;
+}
+
+#toolbar {
+    background-color: orchid;
+}
+
+/* Style the side navigation */
+#sidenav {
+    display: grid;
+    grid-template-rows: 50px auto 50px;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(-90deg, var(--login-top) -200%,
+     var(--login-bottom) 100%);
+    border-right: 1px solid black;
+    max-height: 100vh;
+    overflow: auto;
+    box-shadow: inset -20px 20px 24px rgba(0, 0, 0, .2);
+}
+
+#para{
+    max-height: 50%;
 }
 
 /* Side navigation links */
 #sidenav a {
-    color: black;
+    color: var(--text-high-emphasis);
     padding: 16px;
     text-decoration: none;
     display: block;
 }
 
+.add-delete-container{
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    height: 30px;
+}
+
 /* Change color on hover */
 #sidenav a:hover {
-    background-color: var(--selected-color);
+    background-color: var(--purple-selected-color);
     color: gainsboro;
 }
 
 #sidenav > .nav-header {
     text-align: center;
-    color: black;
+    align-items: center;
+    color: var(--text-black);
     display: block; /* Så att div:en tar upp hela bredden (för att enkelt kunna centrera texten) */
+    background: var(--red-gradient-button);
+    height: 100%;
+    margin: 0;
+    padding-top: 10px;
+    text-shadow: -3px -3px 6px rgba(255, 255, 255, 0.1), 3px 3px 6px rgba(0, 0, 0, 0.2), -1px -1px 2px rgba(255, 255, 255, 0.2), 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 /* NOTES --------------------------------------------------------------------*/
@@ -144,12 +470,14 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 200%;
+    border: 1px solid black;
+    background: var(--dark-gradient);
+     width: 80%;
 }
-  
-.note-header > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    font-size: 100%;
+
+.top-header{
+    display: inline-flex;
+    margin: 0;
 }
 
 /* Container där knapparna Save och Reset finns (för tillfället) */
@@ -179,7 +507,12 @@ body {
     border: 5px solid black;
 }
 
-#quill-container {
+#header-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
     height: 100%;
     max-height: 100%;
     overflow: auto;
@@ -201,3 +534,24 @@ body {
 .ql-editor {
     overflow-y: scroll;
 }
+
+/*      SCROLLBAR       */
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--login-bottom);
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--login-top)
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

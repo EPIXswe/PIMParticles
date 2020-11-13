@@ -7,14 +7,20 @@ async function login() {
 
     let HTMLTextField = document.getElementById("login-textfield");
     let fieldValue = HTMLTextField.value;
-
+    
+    try{
     let webAnswer = await fetch("/rest/login/" + fieldValue);
+    
     user = await webAnswer.json();
-
-    console.log("userid = " + user.id);
+    console.log("Login OK");
     localStorage.setItem("user", user.id);
+    localStorage.setItem("username", user.username);
 
     window.open("/notes.html", "_self");
+    }
+    catch(err){
+        alert("This user is not registered");
+    }
 }
 
 async function register() {
@@ -37,3 +43,12 @@ async function register() {
 
     alert("User created: " + success);
 }
+
+var input = document.getElementById("login-textfield");
+input.addEventListener("keyup", function(event) {
+    event.preventDefault();
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("login1").click();
+  }
+});
