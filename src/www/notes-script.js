@@ -1,5 +1,6 @@
 // Hämtar Username ifrån localStorage för att kunna använda den på denna sidan
 let loggedUserID = localStorage.getItem("user");
+let loggedUserName = localStorage.getItem("username");
 
 // alla note-objekt från servern.
 let notes;
@@ -36,16 +37,14 @@ function GetSortOrder(prop) {
             return 1;    
         }    
         return 0;    
-    }    
-}  
+    }
+}
 
 // En funktion för att skriva ut alla notes i HTML, har ID'n "para", går bra att byta
 function renderNotesList() {
-    let username = localStorage.getItem("username");
-    console.log(username);
     let navHeader = document.querySelector(".nav-header");
 
-    navHeader.innerHTML = username + "'s notes";
+    navHeader.innerHTML = loggedUserName + "'s notes";
 
     let HTMLNoteList = document.querySelector("#para");
 
@@ -55,13 +54,20 @@ function renderNotesList() {
         let noteLi = `
                 <div id="notes">
                     <button title="${note.last_update}" onclick="noteClicked(${note.id})" class="header-button hover-shadow" 
-                    id="header-buttons hButton${note.id}" name="hButton" onmouseover="buttonHover(this, true)" onmouseout="buttonHover(this, false)" data>
+                    id="header-buttons hButton${note.id}" name="hButton" onmouseover="buttonHover(this, true)" onmouseout="buttonHover(this, false)" data-id="${note.id}">
                         ${note.header}
                     </button>
                 </div>`;
 
         HTMLNoteList.innerHTML += noteLi;
     }
+
+    let htmlNotes = document.getElementsByName("hButton");
+    let topNoteID = htmlNotes[0].dataset.id;
+    
+    renderNoteContent(topNoteID, true);
+    noteClicked(topNoteID);
+
 }
 
 function buttonHover(x, isHovering){
@@ -122,7 +128,7 @@ function renderSaveResetButtons(){
 }
 
 async function updateAndRenderNotes() {
-    if(document.querySelector("#editor").innerHTML == "") {
+    if(quill == null) {
         initializeEditor();
     }
     await updateNotes(false);
@@ -172,7 +178,7 @@ function resetNote(){
 }
 
 // Visa quill
-function initializeEditor(){
+function initializeEditor() {
 
     let toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -195,7 +201,7 @@ function initializeEditor(){
         ['clean']                                         // remove formatting button
       ];
 
-    quill = new Quill('#editor', {
+    quill = new Quill('#quill-editor', {
         modules: {
           toolbar: {
               container: toolbarOptions,
@@ -210,7 +216,7 @@ function initializeEditor(){
 }
 
 function toggleEditor(isHidden){
-    let x = document.getElementById("quill");
+    let x = document.getElementById("quill-editor");
     if(isHidden){
         x.style.display = "block";
     }else{
