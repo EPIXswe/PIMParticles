@@ -1,4 +1,5 @@
-// Hämtar Username ifrån localStorage för att kunna använda den på denna sidan
+//#region VARIABLER
+// Hämtar user.id samt username ifrån localStorage för att kunna använda den på denna sidan
 let loggedUserID = localStorage.getItem("user");
 let loggedUserName = localStorage.getItem("username");
 
@@ -9,34 +10,63 @@ let selectedNoteID;
 // Skapar Quill redan här, för att kunna nämna den i annan kod
 let quill = null;
 
-// Olika färger från CSS
+// Importerar olika färger från CSS
 let colFocus = getComputedStyle(document.documentElement)
-.getPropertyValue('--red-gradient-button');
+.getPropertyValue('--header-button-selected');
 let colFocus2 = getComputedStyle(document.documentElement)
-.getPropertyValue('--red-selected-color');
-
-let colButton = getComputedStyle(document.documentElement)
-.getPropertyValue('--teal-button-color');
+.getPropertyValue('--header-button-selected-hover');
 
 let colBlackText = getComputedStyle(document.documentElement)
 .getPropertyValue('--text-black');
 
 let colMedEmphText = getComputedStyle(document.documentElement)
 .getPropertyValue('--text-med-emphasis');
+//#endregion
 
-// Sortera listan av notes efter datum
-function sortNotesList(){
-    notes.sort(GetSortOrder("last_update"));
-}   
+//#region UPPDATERA, SORTERA OCH VISA NOTES 
+// Uppdaterar ändringar, och visar alla notes
+async function updateAndRenderNotes() {
+    if(quill == null) {
+        initializeEditor();
+    }
+    await updateNotes(false);
+}
 
-function GetSortOrder(prop) {    
-    return function(a, b) {    
-        if (a[prop] > b[prop]) {    
-            return -1;    
-        } else if (a[prop] < b[prop]) {    
-            return 1;    
-        }    
-        return 0;    
+// Uppdaterar listan med alla notes genom att kontakta servern
+// för att få ut dom från databasen
+async function updateNotes(isSelected) {
+   let serverAnswer = await fetch("/rest/notes/" + loggedUserID);
+   let json = await serverAnswer.json();
+   notes = json.data;
+   
+   sortNotesList();
+
+   renderNotesList();
+   if(isSelected){
+       renderNoteContent(selectedNoteID, isSelected);
+       noteClicked(selectedNoteID);
+   }
+}
+
+// Lägg till Content från vald note till Quill
+//Ändrar headern ovanför quill till rätt Header
+function renderNoteContent(noteID, isSelected) {
+    
+    selectedNoteHeader = getHeader(noteID);
+
+    let headerList = document.querySelector(".note-header");
+    headerList.innerHTML = `${selectedNoteHeader}`;
+    if(isSelected){
+        try{
+            let strContent = getContent(selectedNoteID);
+            let delta = JSON.parse(strContent);
+            quill.setContents(delta);
+        }catch(err){
+            quill.setContents("");
+        }
+    }else{
+        headerList.innerHTML = "";
+        quill.setContents("");
     }
 }
 
@@ -70,51 +100,24 @@ function renderNotesList() {
 
 }
 
-function buttonHover(x, isHovering){
-    if(x.id == "header-buttons hButton"+selectedNoteID){
-        if(isHovering)
-            x.style.background = colFocus2;
-            else
-            x.style.background = colFocus;
+// Sortera listan av notes efter datum
+function sortNotesList(){
+    notes.sort(GetSortOrder("last_update"));
+}
+
+// Funktionen för att sortera
+function GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return -1;    
+        } else if (a[prop] < b[prop]) {    
+            return 1;    
+        }    
+        return 0;    
     }
 }
 
-// Hämta all "Content" ifrån en note
-function getContent(id) {
-    for(note of notes) {
-        if(note.id == id) {
-            return note.content;
-        }
-    }
-}
-
-// Hämta "Headern" från en note
-function getHeader(id) {
-    for(note of notes){
-        if(note.id == id){
-            return note.header;
-        }
-    }
-}
-
-function noteClicked(noteID) {
-    toggleEditor(true);
-    selectedNoteID = noteID;
-    renderNoteContent(noteID, true);
-    renderSaveResetButtons();
-    
-    let x = document.getElementsByName("hButton");
-    for(i = 0; i < x.length; i++){
-        if(x[i].getAttribute('id') == "header-buttons hButton" + noteID){
-            x[i].style.background = colFocus2;
-            x[i].style.color = colBlackText;
-        }else{
-            x[i].style.background = '';
-            x[i].style.color = colMedEmphText;
-        }
-    }
-}
-
+// Funktion för att rita upp Save och Reset knappen, så att dom inte renderas från start
 function renderSaveResetButtons(){
     let srButtons = document.querySelector("#buttons-container");
     srButtons.innerHTML = `
@@ -126,60 +129,11 @@ function renderSaveResetButtons(){
     </button>
     `;
 }
+//#endregion
 
-async function updateAndRenderNotes() {
-    if(quill == null) {
-        initializeEditor();
-    }
-    await updateNotes(false);
-}
-
-/**
- * Updates notes list (sends request to server)
- */
-async function updateNotes(isSelected) {
-    let serverAnswer = await fetch("/rest/notes/" + loggedUserID);
-    let json = await serverAnswer.json();
-    notes = json.data;
-    
-    sortNotesList();
-
-    renderNotesList();
-    if(isSelected){
-        renderNoteContent(selectedNoteID, isSelected);
-        noteClicked(selectedNoteID);
-    }
-}
-
-// Lägg till Content från vald note till Quill
-//Ändrar headern ovanför quill till rätt Header
-function renderNoteContent(noteID, isSelected) {
-    
-    selectedNoteHeader = getHeader(noteID);
-
-    let headerList = document.querySelector(".note-header");
-    headerList.innerHTML = `${selectedNoteHeader}`;
-    if(isSelected){
-        try{
-            let strContent = getContent(selectedNoteID);
-            let delta = JSON.parse(strContent);
-            quill.setContents(delta);
-        }catch(err){
-            quill.setContents("");
-        }
-    }else{
-        headerList.innerHTML = "";
-        quill.setContents("");
-    }
-}
-
-function resetNote(){
-    renderNoteContent(selectedNoteID, true);
-}
-
-// Visa quill
+//#region EDITOR
+// Definierar Quill
 function initializeEditor() {
-
     let toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
@@ -215,6 +169,7 @@ function initializeEditor() {
     toggleEditor(false);
 }
 
+// Toggle som styr om Quill ska visas eller inte
 function toggleEditor(isHidden){
     let x = document.getElementById("quill-editor");
     if(isHidden){
@@ -224,6 +179,7 @@ function toggleEditor(isHidden){
     }
 }
 
+// Constant för att kunna spara en bild från en URL
 const imageHandler = () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -242,12 +198,68 @@ const imageHandler = () => {
       this.quill.insertEmbed(range.index, 'image', link); 
     }.bind(this); // react thing
   }
+  //#endregion
 
-// Spara ner en note som finns sen innan
+//#region GETTERS
+// Hämta all "Content" ifrån en note
+function getContent(id) {
+    for(note of notes) {
+        if(note.id == id) {
+            return note.content;
+        }
+    }
+}
+
+// Hämta "Headern" från en note
+function getHeader(id) {
+    for(note of notes){
+        if(note.id == id){
+            return note.header;
+        }
+    }
+}
+//#endregion
+
+//#region HEADER KNAPPAR SPECIELLA FUNKTIONER
+// Vad som händer när man trycker på en note
+// Uppdaterar vilken note som är vald, och bytar färg till --header-button-selected
+function noteClicked(noteID) {
+    toggleEditor(true);
+    selectedNoteID = noteID;
+    renderNoteContent(noteID, true);
+    renderSaveResetButtons();
+    
+    let x = document.getElementsByName("hButton");
+    for(i = 0; i < x.length; i++){
+        if(x[i].getAttribute('id') == "header-buttons hButton" + noteID){
+            x[i].style.background = colFocus2;
+            x[i].style.color = colBlackText;
+        }else{
+            x[i].style.background = '';
+            x[i].style.color = colMedEmphText;
+        }
+    }
+}
+
+// Funktion för att göra så att den valda knappen blir highlighted när man drar musen över den
+function buttonHover(x, isHovering){
+    if(x.id == "header-buttons hButton"+selectedNoteID){
+        if(isHovering)
+            x.style.background = colFocus2;
+            else
+            x.style.background = colFocus;
+    }
+}
+//#endregion
+
+//#region FUNKTIONER FÖR ATT GÖRA ÄNDRINGAR I NOTES
+// Återställer alla osparade ändringar
+function resetNote(){
+    renderNoteContent(selectedNoteID, true);
+}
+
+// Sparar den markerade noten
 async function saveNote() {
-
-    // Header kommer inte att uppdateras. Måste hämta nya värdet från .note-header först.
-
     let savedNote = {
         id: selectedNoteID,
         header: document.querySelector(".note-header").innerHTML,
@@ -264,7 +276,7 @@ async function saveNote() {
     updateNotes(true);
 }
 
-// Spara ner en ny note
+// Skapa en ny note
 async function createNewNote(){
     let newHeader = "New Note";
     let headerPostfix = 1;
@@ -294,6 +306,7 @@ async function createNewNote(){
     updateNotes(false);
 }
 
+// Tar bort den markerade noten
 async function deleteNote(){
     let savedNote = {
         id: selectedNoteID,
@@ -310,3 +323,4 @@ async function deleteNote(){
 
     updateNotes(false);
 }
+//#endregion

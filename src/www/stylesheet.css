@@ -1,6 +1,6 @@
-/* VARIABLES ----------------------------------------------------------------*/
-
+/*#region VARIABLES*/
 :root {
+/*#region defining up color scheme*/
     --shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     --shadow-small: 2px 2px 2px rgba(0,0,0,0.20), 4px 4px 4px rgba(0,0,0,0.10);
     /*  Purple  */
@@ -51,10 +51,41 @@
 
     --dark-gradient: linear-gradient(90deg, var(--login-bottom) -100%, var(--login-top) 350%);
     --editor-gradient: linear-gradient(180deg, var(--login-top) -200vh, var(--login-bottom) 100vh);
+/*#endregion*/
+
+/*#region assigning colors*/
+    /*  Organizing all of the colors so that one can change them easily     */
+            /*  standard buttons    */
+        --standard-button: --login-top;
+        --standard-button-hover: --red-focus-color;
+        --standard-button-focus: --red-selected-color;
+
+            /*  login buttons          */
+        --login-button: --teal-button-color;
+        --login-button-hover: --teal-selected-color;
+        --login-button-focus: --teal-focus-color;
+
+        --register-button: --orange-button-color;
+        --register-button-hover: --orange-selected-color;
+        --register-button-focus: --orange-focus-color;
+
+            /*  header buttons       */
+        --header-button-unselected: --teal-gradient-button;
+        --header-button-unselected-hover: --teal-focus-color;
+        --header-button-selected: --red-gradient-button;
+        --header-button-selected-hover: --red-selected-color;
+
+            /*  New and delete note buttons */
+        --save-button: --orange-standard-color;
+        --save-button-hover: --orange-focus-color;
+        --delete-button: --red-standard-color;
+        --delete-button-hover: --red-focus-color;
+
+/*#endregion*/
 }
+/*#endregion*/
 
-/* GLOBAL -------------------------------------------------------------------*/
-
+/*#region GLOBAL*/
 * {
     box-sizing: border-box;
 }
@@ -69,11 +100,18 @@ body {
     color: var(--text-high-emphasis);
 }
 
+button:focus {
+    outline:0;
+}
+/*#endregion*/
+
+/*      BUTTONS         */
+/*#region Standard button + save button*/
 .standard-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--login-top);
+    background-color: var(--standard-button);
     box-shadow: inset 0 0 30px var(--login-bottom);
     text-decoration: none;
     font-size: 100%;
@@ -85,15 +123,36 @@ body {
     transition: 0.15s ease;
 }
 
+.standard-button:hover{
+    background-color: var(--standard-button-hover);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
+           box-shadow: inset 0 0 4px black;
+}
+
+.standard-button:focus{
+    background-color: var(--standard-button-focus);
+}
+
 .save-button{
     background-color: var(--orange-border-color);
 }
 
+.standard-button > div {
+    display: flex;
+    align-items: center;
+    margin: 0 13px 0 5px;
+}
+/*#endregion*/
+
+/*#region Login and register buttons*/
 .login-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--teal-button-color);
+    background-color: var(--login-button);
     text-decoration: none;
     font-size: 100%;
     cursor: pointer;
@@ -106,11 +165,60 @@ body {
     transition: .15s ease;
 }
 
+.login-button:hover{
+    background-color: var(--login-button-hover);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
+           color: var(--text-high-emphasis);
+}
+
+.login-button:focus{
+    background-color: var(--login-button-focus);
+}
+
+.login-register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--register-button);
+    text-decoration: none;
+    font-size: 100%;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 3px;
+    height: 25px;
+    margin-left: 5px;
+    color: var(--text-black);
+}
+
+.login-register:hover{
+    background-color: var(--register-button-hover);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+           color: var(--text-low-emphasis);
+}
+
+.login-register:focus{
+    background-color: var(--register-button-focus);
+}
+
+.login-button > div {
+    display: flex;
+    align-items: center;
+    margin: 0 13px 0 5px;
+}
+/*#endregion*/
+
+/*#region Header buttons*/
 .header-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--teal-gradient-button);
+    background: var(--header-buton-unselected);
     text-decoration: none;
     font-size: 100%;
     cursor: pointer;
@@ -121,54 +229,18 @@ body {
     margin-top: 5px;
 }
 
-.standard-button:hover{
-    background-color: var(--red-selected-color);
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-                    drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
-    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-           drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
-           box-shadow: inset 0 0 4px black;
-}
-
-.login-button:hover{
-    background-color: var(--teal-selected-color);
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-                    drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
-    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-           drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
-           color: var(--text-high-emphasis);
-}
-
 .header-button:hover{
-    background: var(--teal-focus-color);
+    background: var(--header-button-selected-hover);
     -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
                     drop-shadow(-2px -2px 4px rgba(255,255,255,.5));
     filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
            drop-shadow(-2px -2px 4px rgba(255,255,255,.5));
 }
+/*#endregion*/
 
-.standard-button:focus{
-    background-color: var(--teal-focus-color);
-}
-
-.login-button:focus{
-    background-color: var(--teal-focus-color);
-}
-
-.standard-button > div {
-    display: flex;
-    align-items: center;
-    margin: 0 13px 0 5px;
-}
-
-.login-button > div {
-    display: flex;
-    align-items: center;
-    margin: 0 13px 0 5px;
-}
-
+/*#region Delete and Add buttons*/
 .fa-plus-circle{
-    color: var(--orange-standard-color);
+    color: var(--save-button);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -185,8 +257,16 @@ body {
     transition: 0.15s ease;
 }
 
+.fa-plus-circle:hover {
+    color: var(--save-button-hover);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+}
+
 .fa-trash-alt{
-    color: var(--red-standard-color);
+    color: var(--delete-button);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -203,62 +283,23 @@ body {
     transition: .15s ease;
 }
 
+.fa-trash-alt:hover {
+    color: var(--delete-button-hover);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
+}
+
 .special-round-button > div {
     display: flex;
     align-items: center;
     margin: 0 13px 0 5px;
 }
+/*#endregion*/
 
-.fa-plus-circle:hover {
-    color: var(--orange-focus-color);
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
-    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
-}
 
-.fa-trash-alt:hover {
-    color: var(--red-focus-color);
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
-    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
-}
-
-.login-register{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--orange-button-color);
-    text-decoration: none;
-    font-size: 100%;
-    cursor: pointer;
-    border: 1px solid black;
-    border-radius: 3px;
-    height: 25px;
-    margin-left: 5px;
-    color: var(--text-black);
-}
-
-.login-register:hover{
-    background-color: var(--orange-selected-color);
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-                    drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
-    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
-           drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
-           color: var(--text-low-emphasis);
-}
-
-.login-register:focus{
-    background-color: var(--orange-focus-color);
-}
-
-button:focus {
-    outline:0;
-}
-
-/* LOGIN --------------------------------------------------------------------*/
-
+/*#region LOGIN*/
 #login-body {
     display: flex;
     justify-content: center;
@@ -317,9 +358,9 @@ button:focus {
     align-items: center;
     justify-content: right;
 }
+/*#endregion*/
 
-/* MAIN ---------------------------------------------------------------------*/
-
+/*#region MAIN*/
 /* SKALET FÖR HELA NOTES/MAIN-SIDAN */
 #notes-body {
     display: grid;
@@ -460,11 +501,9 @@ button:focus {
     padding-top: 10px;
     text-shadow: -3px -3px 6px rgba(255, 255, 255, 0.1), 3px 3px 6px rgba(0, 0, 0, 0.2), -1px -1px 2px rgba(255, 255, 255, 0.2), 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
+/*#endregion*/
 
-/* NOTES --------------------------------------------------------------------*/
-
-
-
+/*#region NOTES*/
 .note-header {
     display: flex;
     justify-content: center;
@@ -494,9 +533,9 @@ button:focus {
     width: 0px;
     height: 0px;
 }
+/*#endregion*/
 
-/* QUILL --------------------------------------------------------------------*/
-
+/*#region QUILL*/
 /* hela rutan på högra sidan som innehåller anteckningens rubrik, editor och knappar. */
 /* Funkar bra! */
 #note-main-grid {
@@ -533,8 +572,9 @@ button:focus {
 .ql-editor {
     overflow-y: scroll;
 }
+/*#endregion*/
 
-/*      SCROLLBAR       */
+/*#region SCROLLBAR*/
 /* width */
 ::-webkit-scrollbar {
     width: 20px;
@@ -554,3 +594,4 @@ button:focus {
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+  /*#endregion*/
