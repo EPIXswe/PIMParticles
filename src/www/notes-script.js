@@ -6,7 +6,7 @@ let notes;
 let selectedNoteID;
 
 // Skapar Quill redan här, för att kunna nämna den i annan kod
-let quill = '';
+let quill = null;
 
 // En funktion för att skriva ut alla notes i HTML, har ID'n "para", går bra att byta
 function renderNotesList() {
@@ -74,7 +74,7 @@ function renderNoteContent(noteID) {
     let headerList = document.querySelector(".note-header");
     headerList.innerHTML = `${selectedNoteHeader}`;
 
-    if(document.querySelector("#editor").innerHTML == "") {
+    if(quill == null) {
         enableEditor();
     }
 
@@ -84,35 +84,19 @@ function renderNoteContent(noteID) {
 }
 
 // Visa quill
-function enableEditor(){
+function enableEditor() {
 
-    let toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-      
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-      
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-      
-        ['clean']                                         // remove formatting button
-      ];
-
-    quill = new Quill('#editor', {
+    quill = new Quill('#quill-editor', {
         modules: {
-          toolbar: toolbarOptions
+          toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block']
+          ]
         },
-        scrollingContainer: '#scrolling-container',
-        theme: "snow"
-    });
+        placeholder: 'Compose an epic...',
+        theme: 'snow'  // or 'bubble'
+      });
 }
 
 // Spara ner en note som finns sen innan
