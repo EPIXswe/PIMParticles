@@ -1,6 +1,5 @@
 /*#region VARIABLES*/
 :root {
-/*#region defining up color scheme*/
     --shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     --shadow-small: 2px 2px 2px rgba(0,0,0,0.20), 4px 4px 4px rgba(0,0,0,0.10);
     /*  Purple  */
@@ -51,37 +50,30 @@
 
     --dark-gradient: linear-gradient(90deg, var(--login-bottom) -100%, var(--login-top) 350%);
     --editor-gradient: linear-gradient(180deg, var(--login-top) -200vh, var(--login-bottom) 100vh);
-/*#endregion*/
 
-/*#region assigning colors*/
     /*  Organizing all of the colors so that one can change them easily     */
-            /*  standard buttons    */
-        --standard-button: --login-top;
-        --standard-button-hover: --red-focus-color;
-        --standard-button-focus: --red-selected-color;
+    
+        --standard-button: var(--login-top);
+        --standard-button-hover: var(--red-focus-color);
+        --standard-button-focus: var(--red-selected-color);
+        
+        --login-button: var(--teal-button-color);
+        --login-button-hover: var(--teal-selected-color);
+        --login-button-focus: var(--teal-focus-color);
 
-            /*  login buttons          */
-        --login-button: --teal-button-color;
-        --login-button-hover: --teal-selected-color;
-        --login-button-focus: --teal-focus-color;
+        --register-button: var(--orange-button-color);
+        --register-button-hover: var(--orange-selected-color);
+        --register-button-focus: var(--orange-focus-color);
 
-        --register-button: --orange-button-color;
-        --register-button-hover: --orange-selected-color;
-        --register-button-focus: --orange-focus-color;
+        --header-button-unselected: var(--teal-button-color);
+        --header-button-unselected-hover: var(--teal-focus-color);
+        --header-button-selected: var(--red-gradient-button);
+        --header-button-selected-hover: var(--red-selected-color);
 
-            /*  header buttons       */
-        --header-button-unselected: --teal-gradient-button;
-        --header-button-unselected-hover: --teal-focus-color;
-        --header-button-selected: --red-gradient-button;
-        --header-button-selected-hover: --red-selected-color;
-
-            /*  New and delete note buttons */
-        --save-button: --orange-standard-color;
-        --save-button-hover: --orange-focus-color;
-        --delete-button: --red-standard-color;
-        --delete-button-hover: --red-focus-color;
-
-/*#endregion*/
+        --save-button: var(--orange-standard-color);
+        --save-button-hover: var(--orange-focus-color);
+        --delete-button: var(--red-standard-color);
+        --delete-button-hover: var(--red-focus-color);
 }
 /*#endregion*/
 
@@ -137,7 +129,7 @@ button:focus {
 }
 
 .save-button{
-    background-color: var(--orange-border-color);
+    background-color: var(--save-button);
 }
 
 .standard-button > div {
@@ -218,7 +210,7 @@ button:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--header-buton-unselected);
+    background: var(--header-button-unselected);
     text-decoration: none;
     font-size: 100%;
     cursor: pointer;
