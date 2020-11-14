@@ -24,14 +24,14 @@
 			<h2 class="nav-header">My notes</h2>
 			<div id="para"></div>
 			<div class="add-delete-container"> 
-				<button class="special-round-button fas fa-trash-alt" onclick="deleteNote()"></button> 
-				<button class="special-round-button  fas fa-plus-circle" onclick="createNewNote()"></button>
+				<button id="delete" class="special-round-button fas fa-trash-alt" onclick="deleteNote()"></button> 
+				<button id="save" class="special-round-button  fas fa-plus-circle" onclick="createNewNote()"></button>
 			</div>
 		</div>
 
 		<div id="note-main-grid">
 			<div class="top-header">
-				<div contenteditable="true" class="note-header">A note</div>
+				<div contenteditable="true" class="note-header" onclick="document.execCommand('selectAll',false,null)">A note</div>
 				<button class="standard-button" id="logout-button" onclick="window.open('index.html', '_self');">Logout</button>
 			</div>
 

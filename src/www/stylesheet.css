@@ -13,7 +13,7 @@
     var(--purple-border-color) 150%);
     /*  Teal    */
     --teal-standard-color: rgb(82, 126, 143);
-    --teal-border-color: rgb(40, 61, 68);
+    --teal-border-color: rgb(20, 30, 34);
     --teal-selected-color: rgb(86, 122, 135);
     --teal-focus-color:  rgb(107, 152, 169);
     --teal-button-color: rgb(66, 101, 114);
@@ -31,7 +31,7 @@
     var(--orange-border-color) 150%);
     /*  Red  */
     --red-standard-color: rgb(151, 51, 73);
-    --red-border-color: rgb(76, 26, 37);
+    --red-border-color: rgb(28, 13, 19);
     --red-selected-color: rgb(155, 83, 98);
     --red-focus-color:  rgb(172, 92, 109);
     --red-button-color: rgb(121, 41, 58);
@@ -65,14 +65,14 @@
         --register-button-hover: var(--orange-selected-color);
         --register-button-focus: var(--orange-focus-color);
 
-        --header-button-unselected: var(--teal-button-color);
+        --header-button-unselected: var(--teal-gradient-button);
         --header-button-unselected-hover: var(--teal-focus-color);
         --header-button-selected: var(--red-gradient-button);
         --header-button-selected-hover: var(--red-selected-color);
 
         --save-button: var(--orange-standard-color);
         --save-button-hover: var(--orange-focus-color);
-        --delete-button: var(--red-standard-color);
+        --delete-button: var(--red-button-color);
         --delete-button-hover: var(--red-focus-color);
 }
 /*#endregion*/
@@ -130,6 +130,15 @@ button:focus {
 
 .save-button{
     background-color: var(--save-button);
+}
+
+.save-button:hover{
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+                    drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
+    filter:drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
+           drop-shadow(-1px -1px 4px rgba(255,255,255,.1));
+           box-shadow: inset 0 0 4px black;
+    background-color: var(--save-button-hover);
 }
 
 .standard-button > div {
@@ -232,7 +241,7 @@ button:focus {
 
 /*#region Delete and Add buttons*/
 .fa-plus-circle{
-    color: var(--save-button);
+    color: var(--orange-button-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -242,8 +251,8 @@ button:focus {
     border: 1px;
     border-radius: 100%;
     margin-left: none;
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     box-shadow: 3px 3px 4px rgba(0, 0, 0, .5);
 
     transition: 0.15s ease;
@@ -268,8 +277,8 @@ button:focus {
     border: 1px;
     border-radius: 0%;
     margin-left: none;
-    height: 30px;
-    width: 20px;
+    height: 25px;
+    width: 18px;
     box-shadow: 3px 3px 4px rgba(0, 0, 0, .5);
 
     transition: .15s ease;
@@ -323,6 +332,7 @@ button:focus {
     border: 1px solid var(--teal-border-color);
     border-radius: 5px;
     background-color: var(--teal-border-color);
+    opacity: 50%;
     color: var(--text-high-emphasis);
     box-shadow: var(--shadow-small);
 
@@ -343,6 +353,8 @@ button:focus {
 
 #login-textfield:focus {
     background-color: var(--teal-standard-color);
+    opacity: 100%;
+    color: var(--text-high-emphasis);
 }
 
 #login-buttons {
@@ -473,7 +485,19 @@ button:focus {
     display: flex;
     justify-content: space-around;
     align-self: center;
-    height: 30px;
+    height: 40px;
+    width: 20%;
+    bottom: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+#save{
+    pointer-events: auto;
+}
+
+#delete{
+    pointer-events: auto;
 }
 
 /* Change color on hover */
