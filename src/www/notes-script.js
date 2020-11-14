@@ -76,15 +76,18 @@ function renderNotesList() {
 
     navHeader.innerHTML = loggedUserName + "'s notes";
 
+    // Hämtar elementet som har id'n #para
     let HTMLNoteList = document.querySelector("#para");
 
+    // innerHTML beskriver vad som finns i ett visst element
+    // Så att man kan ändra HTML med hjälp av javascript
     HTMLNoteList.innerHTML = "";
     
     for(let note of notes) {
         let noteLi = `
                 <div id="notes">
                     <button title="${note.last_update}" onclick="noteClicked(${note.id})" class="header-button hover-shadow" 
-                    id="header-buttons hButton${note.id}" name="hButton" onmouseover="buttonHover(this, true)" onmouseout="buttonHover(this, false)" data-id="${note.id}">
+                    id="header-buttons hButton${note.id}" name="hButton" onmouseover="buttonHover(this, true)" onmouseout="buttonHover(this, false)" data-id="${note.id}" data-header="${note.header}">
                         ${note.header}
                     </button>
                 </div>`;
@@ -278,31 +281,55 @@ async function saveNote() {
 
 // Skapa en ny note
 async function createNewNote(){
-    let newHeader = "New Note";
-    let headerPostfix = 1;
-    for(i = 0; i < notes.length; i++){
-        if(notes[i].header == newHeader){
-            console.log(notes[i].header);
-            newHeader = "New Note" + "(" + headerPostfix + ")";
-            for(j = 0; j < notes.length; j++){
-                if(notes[j].header == newHeader)
-                headerPostfix++;
-                newHeader = "New Note" + "(" + headerPostfix + ")";
-            }
+    // Skapar en lista med alla element som har namnet hButton
+    let x = document.getElementsByName("hButton");
+
+    // Gör en funktion som lägger ihop alla headers från X till en lång string
+    let y = function(x){
+        let z;
+        // För varje objekt i listan
+        for(i = 0; i < x.length; i++){
+            // Lägg till headern
+            z += x[i].dataset.header;
         }
+        // Returnerar hela listan
+        return z;
+    };
+
+    // Skapar en variabel som är resultatet av funktion Y
+    let z = y(x);
+
+    let newHeader = "New Note";
+    let headerPostfix = 1
+
+    // Ifall newHeader finns någonstans i Z (Som är en lång string av alla sparade headers)
+    while(z.indexOf(newHeader) > -1){
+        // Lägg till (headerPostfix) på den nya headern
+        newHeader = "New Note" + "(" + headerPostfix + ")";
+        console.log(newHeader);
+        // Ökar headerPostfix, så att den blir 2 ifall det finns en header som heter
+        // New Note(1)
+        headerPostfix++;
+        // Kommer att fortsätta loopa tills namnet är unikt
     }
+    
+    // Definierar vad en note är för något
     let newNote = {
         header: newHeader,
         content: "",
         owner: parseInt(loggedUserID)
     };
 
+    // Skickar en request till servern om att skapa en ny note
     let result = await fetch("/createNote", {
         method: "POST",
         body: JSON.stringify(newNote)
     });
 
+    // Skriver ut response från servern om allt gått bra
     console.log(await result.text());
+
+    // Uppdaterar notes listan
     updateNotes(false);
 }
 
