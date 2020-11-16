@@ -57,11 +57,11 @@ function renderNoteContent(noteID, isSelected) {
     let headerList = document.querySelector(".note-header");
     headerList.innerHTML = `${selectedNoteHeader}`;
     if(isSelected){
-        try{
+        try {
             let strContent = getContent(selectedNoteID);
             let delta = JSON.parse(strContent);
             quill.setContents(delta);
-        }catch(err){
+        } catch(err) {
             quill.setContents("");
         }
     }else{
@@ -96,10 +96,11 @@ function renderNotesList() {
     }
 
     let htmlNotes = document.getElementsByName("hButton");
-    let topNoteID = htmlNotes[0].dataset.id;
-    
-    renderNoteContent(topNoteID, true);
-    noteClicked(topNoteID);
+    if(htmlNotes.length > 0) {
+        let topNoteID = htmlNotes[0].dataset.id;
+        renderNoteContent(topNoteID, true);
+        noteClicked(topNoteID);
+    }
 
 }
 
@@ -281,38 +282,31 @@ async function saveNote() {
 
 // Skapa en ny note
 async function createNewNote(){
-    // Skapar en lista med alla element som har namnet hButton
-    let x = document.getElementsByName("hButton");
+    let noteButtons = document.getElementsByName("hButton");
 
-    // Gör en funktion som lägger ihop alla headers från X till en lång string
-    let y = function(x){
-        let z;
-        // För varje objekt i listan
-        for(i = 0; i < x.length; i++){
-            // Lägg till headern
-            z += x[i].dataset.header;
-        }
-        // Returnerar hela listan
-        return z;
-    };
+    let headers = [];
 
-    // Skapar en variabel som är resultatet av funktion Y
-    let z = y(x);
-
-    let newHeader = "New Note";
-    let headerPostfix = 1
-
-    // Ifall newHeader finns någonstans i Z (Som är en lång string av alla sparade headers)
-    while(z.indexOf(newHeader) > -1){
-        // Lägg till (headerPostfix) på den nya headern
-        newHeader = "New Note" + "(" + headerPostfix + ")";
-        console.log(newHeader);
-        // Ökar headerPostfix, så att den blir 2 ifall det finns en header som heter
-        // New Note(1)
-        headerPostfix++;
-        // Kommer att fortsätta loopa tills namnet är unikt
+    // Sparar alla rubriker i listan headers
+    for(i = 0; i < noteButtons.length; i++) {
+        // Lägg till headern
+        headers[i] = noteButtons[i].dataset.header;
     }
-    
+
+    let newHeader = "Untitled Note";
+
+    let amountOfDuplicateHeaders = 0;
+    if(headers.length > 0) {
+        for(i = 0; i < headers.length; i++) {
+            if(headers[i].indexOf(newHeader) == 0) {
+                amountOfDuplicateHeaders++;
+            }
+        }
+
+        if(amountOfDuplicateHeaders > 0) {
+            newHeader = newHeader + " (" + amountOfDuplicateHeaders + ")";
+        }
+    }
+
     // Definierar vad en note är för något
     let newNote = {
         header: newHeader,
