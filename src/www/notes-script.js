@@ -163,7 +163,9 @@ function initializeEditor() {
         modules: {
           toolbar: {
               container: toolbarOptions,
-              handlers: imageHandler
+              handlers: {
+                image: imageHandler
+              }
           }
         },
         scrollingContainer: '#scrolling-container',
@@ -185,24 +187,44 @@ function toggleEditor(isHidden){
 
 // Constant för att kunna spara en bild från en URL
 const imageHandler = () => {
-    const input = document.createElement('input');
+    let input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
     input.onchange = async function() {
-      const file = input.files[0];
-      console.log('User trying to uplaod this:', file);
 
-      const id = await uploadFile(file); // I'm using react, so whatever upload function
-      const range = this.quill.getSelection();
-      const link = `${ROOT_URL}/file/${id}`;
+        let file = input.files[0];
+        // fileURL = länk till den nyligen uppladdade filen
+        let fileURL = await uploadAndGetURL(file); // Viktigt med await för annars går programmet vidare utan att filen hunnit sparas.
 
-      // this part the image is inserted
-      // by 'image' option below, you just have to put src(link) of img here. 
-      this.quill.insertEmbed(range.index, 'image', link); 
+        let range = quill.getSelection();
+
+        // this part the image is inserted
+        // by 'image' option below, you just have to put src(link) of img here. 
+        quill.insertEmbed(range.index, 'image', fileURL);
+
+        // Sparar anteckningen för annars kommer ju bilden bara vara på servern utan anledning om man glömmer att spara.
+        saveNote();
+        
     }.bind(this); // react thing
-  }
-  //#endregion
+}
+//#endregion
+
+async function uploadAndGetURL(file) {
+
+    let formData = new FormData();
+    formData.set("file", file);
+    
+    let answer = await fetch("/api/upload", {
+        method: 'POST',
+        body: formData
+    });
+    let fileName = await answer.text();
+
+    let fileURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/uploads/${fileName}`;
+    return fileURL;
+    
+}
 
 //#region GETTERS
 // Hämta all "Content" ifrån en note

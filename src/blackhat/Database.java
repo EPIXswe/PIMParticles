@@ -132,4 +132,32 @@ public class Database {
             throwables.printStackTrace();
         }
     }
+
+    /**
+     * Used to create and retrieve a unique ID. The ID is saved into the database, in the table "image_ids"
+     * @return a unique ID. Primarily used for file uploads.
+     */
+    public int getUniqueID() throws Exception {
+        try {
+            // Adds a row with an auto-incremented ID.
+            PreparedStatement createNewID = conn.prepareStatement("INSERT INTO image_ids DEFAULT VALUES");
+            int res = createNewID.executeUpdate(); // Antal uppdaterade rader... Om det är 0 så sparades inget.
+
+            if(res == 0) {
+                // Kunde av någon anledning inte skapa ett unikt ID.
+                throw new Exception("Image ID could not be created! Something is seriously wrong...");
+            }
+
+            // Hämtar det nya ID:t som just skapades genom att hämta det högsta ID:t (id är auto-increment)
+            PreparedStatement getNewID = conn.prepareStatement("SELECT * FROM image_ids ORDER BY id DESC LIMIT 1");
+            ResultSet rs = getNewID.executeQuery();
+            int lastID = rs.getInt(1);
+            return lastID;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception("Could not create unique ID. Therefore cannot upload image.");
+    }
 }

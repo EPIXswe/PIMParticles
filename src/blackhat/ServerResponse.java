@@ -41,6 +41,7 @@ public class ServerResponse {
      */
     private ServerResponse(String message, boolean hasData, Object data) {
         this.message = message;
+        this.hasData = hasData;
         this.data = data;
     }
 
