@@ -14,7 +14,7 @@ public class Webserver {
     private final Database db = Database.getInstance();
     private final boolean dBug = false;
     private final Sponsor sponsor = new Sponsor();
-    private final Path uploadsPath = Paths.get("src/www/uploads");
+    public static final Path uploadsPath = Paths.get("src/www/uploads");
     private final Path fileNotFoundPath = Paths.get("src/www/img/FileNotFound.png");
 
     public Webserver() {}
@@ -72,10 +72,8 @@ public class Webserver {
         });
 
         express.put("/updateNote", (request, response) -> {
-            System.out.println("PING: UpdateNote");
             Note note = (Note)request.getBody(Note.class);
-
-            System.out.println(note.toString());
+            System.out.printf("Updating: %s%n", note.toString());
 
             db.updateNote(note);
 
@@ -83,16 +81,13 @@ public class Webserver {
         });
 
         express.delete("/delete", (request, response) -> {
-            Note noteToDelete = (Note)request.getBody(Note.class);
-            System.out.println("Deleting");
-            
-            int id = noteToDelete.getId();
-
-            db.deleteNote(id);
+            int noteID = Integer.parseInt((String) request.getBody().get("id"));
+            System.out.println("Deleting note with ID: " + noteID);
+            db.deleteNote(noteID);
             response.send("Deleted OK");
         });
 
-        express.post("/api/upload", (request, response) -> {
+        express.post("/api/upload/:note-id", (request, response) -> {
 
             FileItem inputFile; // Initialiseras längre ner.
             String outputFileName = "FileNotFound.png"; // Default om filen inte kunde sparas... Mest för kul skull :P
@@ -100,8 +95,9 @@ public class Webserver {
             try {
                 // Hämta filen
                 inputFile = request.getFormData("file").get(0);
+                int noteID = Integer.parseInt(request.getParam("note-id"));
                 // Sparar filen i mappen uploads och hämtar dess nya filnamn.
-                outputFileName = saveFile(inputFile);
+                outputFileName = saveFile(inputFile, noteID);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -123,35 +119,15 @@ public class Webserver {
     }
 
     /**
-     * Looks for a file with the specified id. Not currently used.
-     * @param id The ID to search for
-     * @return The name of the file.
-     */
-    public String getUploadWithID(int id) {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(uploadsPath)) {
-            for (Path path : stream) {
-                if (!Files.isDirectory(path)) {
-                    String fileName = path.getFileName().toString();
-                    if(fileName.substring(0, fileName.indexOf('.')-1).equals(Integer.toString(id))) {
-                        return fileName;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * Saves a file to the folder src/www/uploads
      * @param file The file to be saved.
+     * @param noteID The ID of the note that this file ID is connected to
      * @return the created file's name.
      */
-    private String saveFile(FileItem file) throws Exception {
+    private String saveFile(FileItem file, int noteID) throws Exception {
 
         // 1. Get ID for new file
-        int id = db.getUniqueID();
+        int id = db.getUniqueID(noteID);
 
         // 2. get file extension
         String fileName = file.getName();

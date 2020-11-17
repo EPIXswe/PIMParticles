@@ -41,7 +41,11 @@ async function register() {
     });
     let success = await webAnswer.json();
 
-    alert("User created: " + success);
+    if(success == "true") {
+        alert("User created. Now you can login!");
+    } else {
+        alert("User couldn't be created. Try another username!");
+    }
 }
 
 var input = document.getElementById("login-textfield");
