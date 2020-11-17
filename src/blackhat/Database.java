@@ -78,13 +78,6 @@ public class Database {
             List<Note> notes;
             notes = List.of((Note[])Utils.readResultSetToObject(resultSet, Note[].class));
 
-//            while (resultSet.next()) {
-//                int noteID = resultSet.getInt("id");
-//                String noteHeader = resultSet.getString("header");
-//                String noteContent = resultSet.getString("content");
-//                int noteOwner = resultSet.getInt("owner");
-//                notes.add(new Note(noteID, noteHeader, noteContent, noteOwner));
-//            }
             return notes;
         } catch (SQLException | JsonProcessingException throwables) {
             throwables.printStackTrace();

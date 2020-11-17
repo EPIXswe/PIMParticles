@@ -65,10 +65,10 @@
         --register-button-hover: var(--orange-selected-color);
         --register-button-focus: var(--orange-focus-color);
 
-        --header-button-unselected: var(--teal-gradient-button);
-        --header-button-unselected-hover: var(--teal-focus-color);
-        --header-button-selected: var(--red-gradient-button);
-        --header-button-selected-hover: var(--red-selected-color);
+        --header-button-unselected: var(--red-gradient-button);
+        --header-button-unselected-hover: var(--red-focus-color);
+        --header-button-selected: var(--teal-gradient-button);
+        --header-button-selected-hover: var(--teal-selected-color);
 
         --save-button: var(--orange-standard-color);
         --save-button-hover: var(--orange-focus-color);
