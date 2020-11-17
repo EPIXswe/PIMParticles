@@ -194,7 +194,7 @@ function attachFile() {
 
         let file = input.files[0];
         // fileURL = länk till den nyligen uppladdade filen
-        let fileURL = await uploadAndGetURL(file); // Viktigt med await för annars går programmet vidare utan att filen hunnit sparas.
+        let fileURL = await uploadAndGetURL(file, selectedNoteID); // Viktigt med await för annars går programmet vidare utan att filen hunnit sparas.
 
         let range = quill.getSelection();
 
@@ -204,12 +204,11 @@ function attachFile() {
             'italic': false,
             'code': true,
             'bold': true,
-            'color': '#FFA500',
             'link': fileURL,
             'background': "#000000",
             'indent': true
         });
-        quill.setSelection(range + 1);
+        quill.setSelection(range);
 
 
         // Sparar anteckningen för annars kommer ju bilden bara vara på servern utan anledning om man glömmer att spara.
@@ -238,7 +237,7 @@ const imageHandler = () => {
 
         let file = input.files[0];
         // fileURL = länk till den nyligen uppladdade filen
-        let fileURL = await uploadAndGetURL(file); // Viktigt med await för annars går programmet vidare utan att filen hunnit sparas.
+        let fileURL = await uploadAndGetURL(file, selectedNoteID); // Viktigt med await för annars går programmet vidare utan att filen hunnit sparas.
 
         let range = quill.getSelection();
 
@@ -253,12 +252,12 @@ const imageHandler = () => {
 }
 //#endregion
 
-async function uploadAndGetURL(file) {
+async function uploadAndGetURL(file, noteID) {
 
     let formData = new FormData();
     formData.set("file", file);
     
-    let answer = await fetch("/api/upload", {
+    let answer = await fetch("/api/upload/" + noteID, {
         method: 'POST',
         body: formData
     });
@@ -398,13 +397,13 @@ async function createNewNote(){
 
 // Tar bort den markerade noten
 async function deleteNote(){
-    let savedNote = {
+    let noteToDelete = {
         id: selectedNoteID,
     };
 
     let result = await fetch("/delete", {
         method: "DELETE",
-        body: JSON.stringify(savedNote)
+        body: JSON.stringify(noteToDelete)
     });
 
     console.log(await result.text());

@@ -2,6 +2,10 @@ package blackhat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import express.utils.Utils;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.List;
 
@@ -63,7 +67,8 @@ public class Database {
             if(res > 0)
                 return true;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("Couldn't create user:");
+            System.err.println(throwables.getMessage());
         }
         return false;
     }
@@ -109,31 +114,60 @@ public class Database {
             stmt.setString(3, note.getContent());
             stmt.setInt(4, note.getId());
             int res = stmt.executeUpdate();
-            System.out.println("Updated notes: " + res);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void deleteNote(int noteID){
+    public void deleteNote(int noteID) {
+
         try {
+            deleteFiles(noteID);
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM notes WHERE id = ?");
             stmt.setInt(1, noteID);
             int res = stmt.executeUpdate();
-            System.out.println(res);
+            System.out.println( res > 0 ? "Note deleted" : "Note not deleted" );
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    private void deleteFiles(int noteID) {
+
+        // 1. hämta alla fil-id:n anknutna till det noteID.
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT id FROM files WHERE note_id = ?");
+            stmt.setInt(1, noteID);
+            ResultSet res = stmt.executeQuery();
+
+            while(res.next()) {
+                int fileID = res.getInt(1);
+                Path file = getUploadWithID(fileID);
+                if(file == null) {
+                    System.out.println("FILE IS NULL");
+                    return;
+                }
+                System.out.printf("\tDeleting file: %s... ", file.getFileName());
+                Files.delete(file);
+                System.out.println("Done.");
+            }
+
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     /**
      * Used to create and retrieve a unique ID. The ID is saved into the database, in the table "image_ids"
      * @return a unique ID. Primarily used for file uploads.
      */
-    public int getUniqueID() throws Exception {
+    public int getUniqueID(int noteID) throws Exception {
         try {
             // Adds a row with an auto-incremented ID.
-            PreparedStatement createNewID = conn.prepareStatement("INSERT INTO image_ids DEFAULT VALUES");
+            PreparedStatement createNewID = conn.prepareStatement("INSERT INTO files (note_id) VALUES (?)");
+            createNewID.setInt(1, noteID);
             int res = createNewID.executeUpdate(); // Antal uppdaterade rader... Om det är 0 så sparades inget.
 
             if(res == 0) {
@@ -142,7 +176,8 @@ public class Database {
             }
 
             // Hämtar det nya ID:t som just skapades genom att hämta det högsta ID:t (id är auto-increment)
-            PreparedStatement getNewID = conn.prepareStatement("SELECT * FROM image_ids ORDER BY id DESC LIMIT 1");
+            PreparedStatement getNewID = conn.prepareStatement("SELECT * FROM files WHERE note_id = ? ORDER BY id DESC LIMIT 1");
+            getNewID.setInt(1, noteID);
             ResultSet rs = getNewID.executeQuery();
             int lastID = rs.getInt(1);
             return lastID;
@@ -152,5 +187,26 @@ public class Database {
         }
 
         throw new Exception("Could not create unique ID. Therefore cannot upload image.");
+    }
+
+    /**
+     * Looks for a file with the specified id.
+     * @param id The ID to search for
+     * @return The file path.
+     */
+    public Path getUploadWithID(int id) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Webserver.uploadsPath)) {
+            for (Path path : stream) {
+                if (!Files.isDirectory(path)) {
+                    String fileName = path.getFileName().toString();
+                    if(fileName.substring(0, fileName.indexOf('.')).equals(Integer.toString(id))) {
+                        return path;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

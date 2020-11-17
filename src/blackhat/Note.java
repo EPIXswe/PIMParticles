@@ -60,11 +60,11 @@ public class Note {
 
     @Override
     public String toString() {
-        return "Note{" +
+        return "Note { " +
                 "id=" + id +
                 ", header='" + header + '\'' +
                 ", content='" + content + '\'' +
                 ", owner=" + owner +
-                '}';
+                " }";
     }
 }

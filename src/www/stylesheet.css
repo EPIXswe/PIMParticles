@@ -308,6 +308,11 @@ button:focus {
            drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
 }
 
+.fa-paperclip {
+    color: #555;
+    justify-self: right;
+}
+
 .special-round-button > div {
     display: flex;
     align-items: center;
@@ -390,7 +395,7 @@ button:focus {
     height: 100vh;
     max-height: 100vh;
     background-color: olivedrab;
-    
+
     /* 20%: bredden för sidenav */
     /* auto: resten av utrymmet på skärmen, dvs editorn, spara-knappar och rubrik etc. */
     grid-template-columns: 20% auto;
@@ -407,7 +412,7 @@ button:focus {
     background: linear-gradient(0deg, var(--darkest-background) 0vh, var(--login-bottom) 100vh);
 
     grid-template-columns: auto;
-    grid-template-rows: 65px  auto 40px;
+    grid-template-rows: 65px auto 40px;
     box-shadow: var(--shadow), inset 2vw 100px 32px rgba(0, 0, 0, 0.05), inset 0 30px 100px rgba(0, 0, 0, 0.2);
 }
 
@@ -416,7 +421,7 @@ button:focus {
     width: min-content;
     padding: 0 20px;
     margin: 0;
-    border-radius: 0;
+    border-left: none;
     color: var(--text-med-emphasis);
 }
 
@@ -435,14 +440,21 @@ button:focus {
     margin: 0;
     padding: 0;
     background: var(--login-bottom);
-    border: none
 }
 
 .ql-editor{
     max-height: 84.8vh;
     min-height: 20vh;
-    border: none;
     background: var(--editor-gradient);
+}
+
+.ql-toolbar.ql-snow {
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.ql-container.ql-snow {
+    border: none;
 }
 
 /* Container där knapparna Save och Reset finns */
@@ -453,6 +465,7 @@ button:focus {
     padding-right: 10px;
     background: var(--dark-gradient);
     box-shadow: inset 0 -6px 6px rgba(0, 0, 0, 0.4);
+    border-top: 1px solid black;
 }
 
 /* PROBLEM */
@@ -479,7 +492,7 @@ button:focus {
     box-shadow: inset -20px 20px 24px rgba(0, 0, 0, .2);
 }
 
-.add-delete-container{
+.add-delete-container {
     display: flex;
     justify-content: space-around;
     align-self: center;
@@ -490,26 +503,12 @@ button:focus {
     pointer-events: none;
 }
 
-#save{
+#save {
     pointer-events: auto;
 }
 
-#delete{
+#delete {
     pointer-events: auto;
-}
-
-/* Side navigation links */
-#sidenav a {
-    color: var(--text-high-emphasis);
-    padding: 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Change color on hover */
-#sidenav a:hover {
-    background-color: var(--purple-selected-color);
-    color: gainsboro;
 }
 
 #sidenav > .nav-header {
