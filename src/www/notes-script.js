@@ -12,15 +12,13 @@ let quill = null;
 
 // Importerar olika färger från CSS
 let colFocus = getComputedStyle(document.documentElement)
-.getPropertyValue('--header-button-selected');
+    .getPropertyValue('--header-button-selected');
 let colFocus2 = getComputedStyle(document.documentElement)
-.getPropertyValue('--header-button-selected-hover');
-
+    .getPropertyValue('--header-button-selected-hover');
 let colBlackText = getComputedStyle(document.documentElement)
-.getPropertyValue('--text-black');
-
+    .getPropertyValue('--text-black');
 let colMedEmphText = getComputedStyle(document.documentElement)
-.getPropertyValue('--text-med-emphasis');
+    .getPropertyValue('--selected-button-text-color');
 //#endregion
 
 //#region UPPDATERA, SORTERA OCH VISA NOTES 
@@ -85,8 +83,8 @@ function renderNotesList() {
     
     for(let note of notes) {
         let noteLi = `
-                <div id="notes">
-                    <button title="${note.last_update}" onclick="noteClicked(${note.id})" class="header-button hover-shadow" 
+                <div id="note">
+                    <button title="${note.last_update}" onclick="noteClicked(${note.id})" class="header-button" 
                     id="header-buttons hButton${note.id}" name="hButton" onmouseover="buttonHover(this, true)" onmouseout="buttonHover(this, false)" data-id="${note.id}" data-header="${note.header}">
                         ${note.header}
                     </button>
@@ -95,7 +93,9 @@ function renderNotesList() {
         HTMLNoteList.innerHTML += noteLi;
     }
 
+    // Hämtar alla knappar som lagts till i sidenav (#para)
     let htmlNotes = document.getElementsByName("hButton");
+    // Så länge det finns minst en note, hämta ID:t för denna och läs in den i Quill.
     if(htmlNotes.length > 0) {
         let topNoteID = htmlNotes[0].dataset.id;
         renderNoteContent(topNoteID, true);
@@ -302,10 +302,14 @@ function noteClicked(noteID) {
     for(i = 0; i < x.length; i++){
         if(x[i].getAttribute('id') == "header-buttons hButton" + noteID){
             x[i].style.background = colFocus2;
-            x[i].style.color = colBlackText;
+            x[i].style.color = colMedEmphText;
+            x[i].style.border = "1px solid black";
+            x[i].style.fontSize = "110%";
         }else{
             x[i].style.background = '';
-            x[i].style.color = colMedEmphText;
+            x[i].style.color = colBlackText;
+            x[i].style.border = "none";
+            x[i].style.fontSize = "100%";
         }
     }
 }
@@ -410,3 +414,28 @@ async function deleteNote(){
     updateNotes(false);
 }
 //#endregion
+
+function toggleSidenavCollapse() {
+    let sidenavHTML = document.querySelector("#sidenav");
+    let notesBodyHTML = document.querySelector("#notes-body");
+    let collapseButton = document.querySelector("#collapse-sidenav-button");
+
+    let isCollapsed = sidenavHTML.dataset.collapsed;
+    if(isCollapsed == "true") {
+        console.log("Showing...");
+        notesBodyHTML.style.gridTemplateColumns = "20% auto";
+        sidenavHTML.style.display = "inline-block";
+        sidenavHTML.dataset.collapsed = "false";
+        collapseButton.classList.toggle("fa-bars");
+        collapseButton.classList.toggle("fa-expand-arrows-alt");
+    } else if(isCollapsed == "false") {
+        console.log("Hiding...");
+        notesBodyHTML.style.gridTemplateColumns = "auto";
+        sidenavHTML.style.display = "none";
+        sidenavHTML.dataset.collapsed = "true";
+        collapseButton.classList.toggle("fa-bars");
+        collapseButton.classList.toggle("fa-expand-arrows-alt");
+    } else {
+        console.log("Invalid value");
+    }
+}

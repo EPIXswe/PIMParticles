@@ -14,13 +14,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body onload="updateAndRenderNotes()">
-
-
-
-
-
 	<div id="notes-body">
-		<div id="sidenav">
+		<div id="sidenav" data-collapsed="false">
 			<h2 class="nav-header">My notes</h2>
 			<div id="para"></div>
 			<div class="add-delete-container"> 
@@ -31,6 +26,7 @@
 
 		<div id="note-main-grid">
 			<div class="top-header">
+				<button class="standard-button fas fa-expand-arrows-alt" id="collapse-sidenav-button" onclick="toggleSidenavCollapse()"></button>
 				<div contenteditable="true" class="note-header" onclick="document.execCommand('selectAll',false,null)">A note</div>
 				<button class="standard-button" id="logout-button" onclick="window.open('index.html', '_self');">Logout</button>
 			</div>

@@ -33,11 +33,25 @@
     --red-standard-color: rgb(151, 51, 73);
     --red-border-color: rgb(28, 13, 19);
     --red-selected-color: rgb(155, 83, 98);
-    --red-focus-color:  rgb(172, 92, 109);
+    --red-focus-color:  rgb(146, 45, 67);
     --red-button-color: rgb(121, 41, 58);
+    --red-button-selected-color: rgb(110, 33, 49);
 
     --red-gradient-button: linear-gradient(90deg, var(--red-border-color) -50%, var(--red-button-color) 20%, var(--red-button-color) 80%,
     var(--red-border-color) 150%);
+
+    /*  Darkred  */
+    --darkred-standard-color: rgb(138, 36, 36);
+    --darkred-border-color: rgb(62, 53, 67);
+    --darkred-selected-color: rgb(171, 146, 187);
+    --darkred-focus-color:  rgb(205, 190, 214);
+    --darkred-button-color:#aa3a3a;
+
+    --darkred-gradient-button: linear-gradient(90deg, var(--darkred-border-color) -50%, var(--darkred-button-color) 20%, var(--darkred-button-color) 80%,
+    var(--darkred-border-color) 150%);
+
+    /*  Other  */
+    --selected-button-text-color: rgba(8, 7, 7, 0.87);
 
     /*  Standard colors */
     --login-top: rgb(61, 61, 61);
@@ -67,8 +81,9 @@
 
         --header-button-unselected: var(--red-gradient-button);
         --header-button-unselected-hover: var(--red-focus-color);
-        --header-button-selected: var(--teal-gradient-button);
-        --header-button-selected-hover: var(--teal-selected-color);
+
+        --header-button-selected: var(--red-button-selected-color);
+        --header-button-selected-hover: var(--red-button-selected-color);
 
         --save-button: var(--orange-standard-color);
         --save-button-hover: var(--orange-focus-color);
@@ -166,7 +181,7 @@ button:focus {
     transition: .15s ease;
 }
 
-.login-button:hover{
+.login-button:hover {
     background-color: var(--login-button-hover);
     -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
                     drop-shadow(-1px -1px 1px rgba(255,255,255,.2));
@@ -175,11 +190,11 @@ button:focus {
            color: var(--text-high-emphasis);
 }
 
-.login-button:focus{
+.login-button:focus {
     background-color: var(--login-button-focus);
 }
 
-.login-register{
+.login-register {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -194,7 +209,7 @@ button:focus {
     color: var(--text-black);
 }
 
-.login-register:hover{
+.login-register:hover {
     background-color: var(--register-button-hover);
     -webkit-filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
                     drop-shadow(-1px -1px 1px rgba(255,255,255,.5));
@@ -203,7 +218,7 @@ button:focus {
            color: var(--text-low-emphasis);
 }
 
-.login-register:focus{
+.login-register:focus {
     background-color: var(--register-button-focus);
 }
 
@@ -227,7 +242,7 @@ button:focus {
     height: 10vh;
     width: 100%;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-    margin-top: 5px;
+    transition: 0.25s font-size;
 }
 
 .header-button:hover{
@@ -237,6 +252,7 @@ button:focus {
     filter: drop-shadow(2px 2px 2px rgba(0,0,0,.7)) 
            drop-shadow(-2px -2px 4px rgba(255,255,255,.5));
 }
+
 /*#endregion*/
 
 /*#region Delete and Add buttons*/
@@ -335,9 +351,18 @@ button:focus {
     opacity: 50%;
     color: var(--text-high-emphasis);
     box-shadow: var(--shadow-small);
+    padding: 0 10px;
 
     transition: 0.25s ease;
 }
+
+#login-textfield:focus {
+    background-color: var(--teal-standard-color);
+    opacity: 100%;
+    color: var(--text-high-emphasis);
+    outline: none;
+}
+
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color:  var(--text-med-emphasis);
     opacity: 1; /* Firefox */
@@ -349,12 +374,6 @@ button:focus {
   
 ::-ms-input-placeholder { /* Microsoft Edge */
     color:  var(--text-med-emphasis);
-}
-
-#login-textfield:focus {
-    background-color: var(--teal-standard-color);
-    opacity: 100%;
-    color: var(--text-high-emphasis);
 }
 
 #login-buttons {
@@ -377,8 +396,9 @@ button:focus {
     grid-template-columns: 20% auto;
 }
 
-#notes{
+#note {
     box-shadow: 0 3px 16px rgba(0, 0, 0, .2);
+    border-bottom: 1px solid black;
 }
 
 /* hela rutan på högra sidan som innehåller anteckningens rubrik, editor och knappar. */
@@ -391,15 +411,13 @@ button:focus {
     box-shadow: var(--shadow), inset 2vw 100px 32px rgba(0, 0, 0, 0.05), inset 0 30px 100px rgba(0, 0, 0, 0.2);
 }
 
-#note-header-grid {
-    display: grid;
-    grid-template-columns: auto 50px;
-}
-
-#note-header-grid .standard-button {
-    display: inline-flex;
-    justify-self: center;
-    align-self: center;
+#collapse-sidenav-button {
+    height: 100%;
+    width: min-content;
+    padding: 0 20px;
+    margin: 0;
+    border-radius: 0;
+    color: var(--text-med-emphasis);
 }
 
 #quill{
@@ -453,24 +471,12 @@ button:focus {
     grid-template-rows: min-content auto 50px;
     margin: 0;
     padding: 0;
-    background: linear-gradient(-90deg, var(--login-top) -200%,
-     var(--login-bottom) 100%);
+    background: linear-gradient(-90deg, var(--login-top) -200%, var(--login-bottom) 100%);
     border-right: 1px solid black;
     max-height: 100vh;
+    height: 100vh;
     overflow: auto;
     box-shadow: inset -20px 20px 24px rgba(0, 0, 0, .2);
-}
-
-#para{
-    max-height: 50%;
-}
-
-/* Side navigation links */
-#sidenav a {
-    color: var(--text-high-emphasis);
-    padding: 16px;
-    text-decoration: none;
-    display: block;
 }
 
 .add-delete-container{
@@ -492,6 +498,14 @@ button:focus {
     pointer-events: auto;
 }
 
+/* Side navigation links */
+#sidenav a {
+    color: var(--text-high-emphasis);
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+}
+
 /* Change color on hover */
 #sidenav a:hover {
     background-color: var(--purple-selected-color);
@@ -503,12 +517,13 @@ button:focus {
     align-items: center;
     color: var(--text-black);
     display: block; /* Så att div:en tar upp hela bredden (för att enkelt kunna centrera texten) */
-    background: var(--red-gradient-button);
-    height: 100%;
+    background: var(--darkred-gradient-button);
     margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     text-shadow: -3px -3px 6px rgba(255, 255, 255, 0.1), 3px 3px 6px rgba(0, 0, 0, 0.2), -1px -1px 2px rgba(255, 255, 255, 0.2), 1px 1px 2px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid black;
+    border-top-left-radius: 10px;
 }
 /*#endregion*/
 
@@ -517,6 +532,7 @@ button:focus {
 .top-header {
     display: inline-flex;
     margin: 0;
+    border-top-right-radius: 10px;
 }
 
 .note-header {
@@ -526,15 +542,17 @@ button:focus {
     font-size: 200%;
     border: 1px solid black;
     background: var(--dark-gradient);
-    width: 90%;
+    width: 100%;
 }
 
 #logout-button {
     height: 100%;
-    width: 10%;
+    width: min-content;
+    padding: 0 20px;
     margin: 0;
     border-radius: 0;
     color: var(--text-med-emphasis);
+    border-top-right-radius: 10px;
 }
 
 /* Container där knapparna Save och Reset finns (för tillfället) */
@@ -591,9 +609,6 @@ button:focus {
     overflow-y: scroll;
 }
 
-#attach-file-button {
-    
-}
 /*#endregion*/
 
 /*#region SCROLLBAR*/
