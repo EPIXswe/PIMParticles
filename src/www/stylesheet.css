@@ -590,6 +590,10 @@ button:focus {
 .ql-editor {
     overflow-y: scroll;
 }
+
+#attach-file-button {
+    
+}
 /*#endregion*/
 
 /*#region SCROLLBAR*/
