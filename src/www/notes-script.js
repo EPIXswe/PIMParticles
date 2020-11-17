@@ -138,6 +138,7 @@ function renderSaveResetButtons(){
 //#region EDITOR
 // Definierar Quill
 function initializeEditor() {
+    /*
     let toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
@@ -157,22 +158,64 @@ function initializeEditor() {
         [ 'image' ],
       
         ['clean']                                         // remove formatting button
-      ];
+      ];*/
 
     quill = new Quill('#quill-editor', {
         modules: {
           toolbar: {
-              container: toolbarOptions,
+              container: "#toolbar-container",
               handlers: {
-                image: imageHandler
+                'image': imageHandler
               }
           }
         },
-        scrollingContainer: '#scrolling-container',
         theme: "snow"
     });
 
+    var Parchment = Quill.import("parchment");
+
+    let CustomClass = new Parchment.Attributor.Class('custom', 'ql-custom', {
+      scope: Parchment.Scope.INLINE
+    });
+    Quill.register(CustomClass, true);
+
+    var customButton = document.querySelector('#attach-file-button');
+    customButton.addEventListener('click', function() {attachFile()});
+
     toggleEditor(false);
+}
+
+function attachFile() {
+    let input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', '*');
+    input.click();
+    input.onchange = async function() {
+
+        let file = input.files[0];
+        // fileURL = länk till den nyligen uppladdade filen
+        let fileURL = await uploadAndGetURL(file); // Viktigt med await för annars går programmet vidare utan att filen hunnit sparas.
+
+        let range = quill.getSelection();
+
+        // this part the link is inserted
+        // by 'link' option below, you just have to put link here. 
+        quill.insertText(range.index, 'LINK', {
+            'italic': false,
+            'code': true,
+            'bold': true,
+            'color': '#FFA500',
+            'link': fileURL,
+            'background': "#000000",
+            'indent': true
+        });
+        quill.setSelection(range + 1);
+
+
+        // Sparar anteckningen för annars kommer ju bilden bara vara på servern utan anledning om man glömmer att spara.
+        saveNote();
+        
+    }.bind(this); // react thing
 }
 
 // Toggle som styr om Quill ska visas eller inte
