@@ -374,15 +374,13 @@ async function createNewNote(){
 
 // Tar bort den markerade noten
 async function deleteNote(){
-    let noteToDelete = {
+    let savedNote = {
         id: selectedNoteID
     };
 
-    console.log(selectedNoteID);
-
     let result = await fetch("/delete", {
         method: "DELETE",
-        body: JSON.stringify(noteToDelete)
+        body: JSON.stringify(savedNote)
     });
 
     console.log(await result.text());

@@ -81,9 +81,10 @@ public class Webserver {
         });
 
         express.delete("/delete", (request, response) -> {
-            int noteID = Integer.parseInt((String) request.getBody().get("id"));
-            System.out.println("Deleting note with ID: " + noteID);
-            db.deleteNote(noteID);
+            Note noteToDelete = (Note)request.getBody(Note.class);
+            int id = noteToDelete.getId();
+            System.out.println("Deleting note with ID: " + id);
+            db.deleteNote(id);
             response.send("Deleted OK");
         });
 
