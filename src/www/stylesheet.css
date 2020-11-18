@@ -33,9 +33,8 @@
     --red-standard-color: rgb(151, 51, 73);
     --red-border-color: rgb(28, 13, 19);
     --red-selected-color: rgb(155, 83, 98);
-    --red-focus-color:  rgb(146, 45, 67);
+    --red-focus-color:  rgb(172, 92, 109);
     --red-button-color: rgb(121, 41, 58);
-    --red-button-selected-color: rgb(110, 33, 49);
 
     --red-gradient-button: linear-gradient(90deg, var(--red-border-color) -50%, var(--red-button-color) 20%, var(--red-button-color) 80%,
     var(--red-border-color) 150%);
@@ -82,8 +81,8 @@
         --header-button-unselected: var(--red-gradient-button);
         --header-button-unselected-hover: var(--red-focus-color);
 
-        --header-button-selected: var(--red-button-selected-color);
-        --header-button-selected-hover: var(--red-button-selected-color);
+        --header-button-selected: var(--teal-gradient-button);
+        --header-button-selected-hover: var(--teal-selected-color);
 
         --save-button: var(--orange-standard-color);
         --save-button-hover: var(--orange-focus-color);
