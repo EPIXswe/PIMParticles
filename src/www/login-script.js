@@ -29,10 +29,10 @@ async function register() {
     // 3. Meddela om det gick bra eller inte.
 
     let HTMLusername = document.getElementById("login-textfield");
-    let username = HTMLusername.value;
+    let usernameInput = HTMLusername.value;
 
     let theBody = {
-        username: username
+        username: usernameInput
     }
 
     let webAnswer = await fetch("/createUser", {

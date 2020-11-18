@@ -120,7 +120,6 @@ public class Database {
     }
 
     public void deleteNote(int noteID) {
-
         try {
             deleteFiles(noteID);
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM notes WHERE id = ?");

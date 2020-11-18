@@ -38,7 +38,6 @@ async function updateNotes(isSelected) {
    notes = json.data;
    
    sortNotesList();
-
    renderNotesList();
    if(isSelected){
        renderNoteContent(selectedNoteID, isSelected);
@@ -138,28 +137,6 @@ function renderSaveResetButtons(){
 //#region EDITOR
 // Definierar Quill
 function initializeEditor() {
-    /*
-    let toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-      
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-      
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-        [ 'image' ],
-      
-        ['clean']                                         // remove formatting button
-      ];*/
-
     quill = new Quill('#quill-editor', {
         modules: {
           toolbar: {
@@ -345,7 +322,7 @@ async function saveNote() {
     });
 
     console.log(await result.text());
-    updateNotes(true);
+    await updateNotes(true);
 }
 
 // Skapa en ny note
@@ -391,15 +368,17 @@ async function createNewNote(){
     // Skriver ut response från servern om allt gått bra
     console.log(await result.text());
 
-    // Uppdaterar notes listan
-    updateNotes(false);
+    // Uppdaterar notes-listan
+    await updateNotes(false);
 }
 
 // Tar bort den markerade noten
 async function deleteNote(){
     let noteToDelete = {
-        id: selectedNoteID,
+        id: selectedNoteID
     };
+
+    console.log(selectedNoteID);
 
     let result = await fetch("/delete", {
         method: "DELETE",
@@ -410,7 +389,7 @@ async function deleteNote(){
 
     toggleEditor(false);
 
-    updateNotes(false);
+    await updateNotes(false);
 }
 //#endregion
 
