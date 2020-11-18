@@ -1,5 +1,8 @@
 /*#region VARIABLES*/
 :root {
+
+    /* MARTINS HÖRNA */
+
     --shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     --shadow-small: 2px 2px 2px rgba(0,0,0,0.20), 4px 4px 4px rgba(0,0,0,0.10);
     /*  Purple  */
@@ -78,15 +81,15 @@
         --register-button-hover: var(--orange-selected-color);
         --register-button-focus: var(--orange-focus-color);
 
-        --header-button-unselected: var(--red-gradient-button);
-        --header-button-unselected-hover: var(--red-focus-color);
+        --header-button-unselected: var(--teal-gradient-button);
+        --header-button-unselected-hover: var(--teal-focus-color);
 
-        --header-button-selected: var(--teal-gradient-button);
-        --header-button-selected-hover: var(--teal-selected-color);
+        --header-button-selected: var(--red-gradient-button);
+        --header-button-selected-hover: var(--red-selected-color);
 
         --save-button: var(--orange-standard-color);
         --save-button-hover: var(--orange-focus-color);
-        --delete-button: var(--red-button-color);
+        --delete-button: var(--red-button-color); /* ////////////////////////////////////////////////////////////// */
         --delete-button-hover: var(--red-focus-color);
 }
 /*#endregion*/

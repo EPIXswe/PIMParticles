@@ -21,6 +21,7 @@ public class Webserver {
 
     public void Start() {
 //region users
+        // ANVÄNDS EJ FÖR TILLFÄLLET
         express.get("/rest/login", (request, response) -> {
             System.out.println("PING: login");
             int id = Integer.parseInt((String) request.getBody().get("id"));
@@ -39,6 +40,7 @@ public class Webserver {
         express.post("/createUser", (request, response) -> {
             String username = (String) request.getBody().get("username");
             boolean canCreate = db.createNewUser(username);
+            System.out.println("COULD CREATE: " + canCreate);
             response.send(Boolean.toString(canCreate));
         });
         //endregion -----------------------------------------------------------

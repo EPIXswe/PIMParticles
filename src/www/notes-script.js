@@ -339,9 +339,11 @@ async function createNewNote(){
 
     let newHeader = "Untitled Note";
 
+    // Kollar hur många dubletter det finns av "Untitled Note"
     let amountOfDuplicateHeaders = 0;
     if(headers.length > 0) {
         for(i = 0; i < headers.length; i++) {
+            // Om en anteckning har rubriken av newHeader, ökna räknaren för dubletter
             if(headers[i].indexOf(newHeader) == 0) {
                 amountOfDuplicateHeaders++;
             }

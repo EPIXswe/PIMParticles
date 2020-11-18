@@ -1,3 +1,4 @@
+// Användare som ska loggas in (sätts senare)
 let user;
 
 async function login() {
@@ -6,17 +7,17 @@ async function login() {
     // 3. Logga in användare
 
     let HTMLTextField = document.getElementById("login-textfield");
-    let fieldValue = HTMLTextField.value;
+    let fieldValue = HTMLTextField.value; //Det som står i textfältet
     
     try{
-    let webAnswer = await fetch("/rest/login/" + fieldValue);
-    
-    user = await webAnswer.json();
-    console.log("Login OK");
-    localStorage.setItem("user", user.id);
-    localStorage.setItem("username", user.username);
+        let webAnswer = await fetch("/rest/login/" + fieldValue);
+        
+        user = await webAnswer.json();
+        console.log("Login OK");
+        localStorage.setItem("user", user.id);
+        localStorage.setItem("username", user.username);
 
-    window.open("/notes.html", "_self");
+        window.open("/notes.html", "_self");
     }
     catch(err){
         alert("This user is not registered");
@@ -39,7 +40,7 @@ async function register() {
         body: JSON.stringify(theBody),
         method: 'POST' 
     });
-    let success = await webAnswer.json();
+    let success = await webAnswer.text();
 
     if(success == "true") {
         alert("User created. Now you can login!");
@@ -50,9 +51,10 @@ async function register() {
 
 var input = document.getElementById("login-textfield");
 input.addEventListener("keyup", function(event) {
+    // Gör så att webbläsarens default-beteende ignoreras.
     event.preventDefault();
-  if (event.keyCode === 13) {
-   event.preventDefault();
-   document.getElementById("login1").click();
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("login1").click();
   }
 });
